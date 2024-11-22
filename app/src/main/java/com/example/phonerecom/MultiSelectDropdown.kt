@@ -24,7 +24,7 @@ fun MultiSelectDropdown(
         OutlinedTextField(
             value = selectedText,
             onValueChange = {},
-            label = { Text("Select Attributes") },
+            label = { Text("Select Specifications") },
             modifier = Modifier.fillMaxWidth().padding(bottom = 16.dp),
             readOnly = true,
             trailingIcon = {

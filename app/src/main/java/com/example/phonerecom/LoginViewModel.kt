@@ -35,12 +35,13 @@ class LoginViewModel(private val dbHelper: DatabaseHelper) : ViewModel() {
     fun logout() {
         currentUser = null
     }
+    /*
     fun isAdmin(): Boolean {
         return currentUserRole.equals("admin")
     }
     fun isLoggedIn(): Boolean {
         return currentUser != null
-    }
+    }*/
 
     fun addUser(username: String, password: String, role: String, callback: (Boolean) -> Unit) {
         viewModelScope.launch {

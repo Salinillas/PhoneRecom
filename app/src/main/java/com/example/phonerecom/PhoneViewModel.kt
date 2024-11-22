@@ -1,12 +1,14 @@
 package com.example.phonerecom
 
+import android.widget.Toast
 import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.ViewModel
 
 
 class PhoneViewModel(private val dbHelper: DatabaseHelper) : ViewModel() {
     private val phones = mutableStateListOf<Phone>()
-
     init {
         loadPhonesFromDatabase()
     }
@@ -37,20 +39,11 @@ class PhoneViewModel(private val dbHelper: DatabaseHelper) : ViewModel() {
         return false
     }
 
-    /*fun getPhonesByPriceRange(minPrice: Float, maxPrice: Float): List<Phone> {
-        return dbHelper.getAllPhones().filter { phone ->
-            val price = phone.attributes["Price"]?.specification?.removePrefix("$")?.toFloatOrNull()
-            price != null && price in minPrice..maxPrice
-        }
-    }*/
+    /*
     fun getPhonesByPriceRange(minPrice: Float, maxPrice: Float): List<Phone> {
         return dbHelper.getPhonesByPriceRange(minPrice, maxPrice)
     }
-    /*fun getBestPhoneWithinBudget(budget: Float): Phone? {
-        return phones
-            .filter { it.attributes["Price"]?.specification?.toFloatOrNull()?.let { price -> price in (budget - 50)..(budget + 50) } == true }
-            .maxByOrNull { it.attributes.values.sumOf { attribute -> attribute.score?.toFloat() ?: 0f } }
-    }*/
+
     fun getBestPhoneByAttributeWithinBudget(attribute: String, budget: Float): Phone? {
         return dbHelper.getAllPhones()
             .filter { it.attributes["Price"]?.specification?.removePrefix("$")?.toFloatOrNull()?.let { price -> price in (budget - 50)..(budget + 50) } == true }
@@ -67,7 +60,18 @@ class PhoneViewModel(private val dbHelper: DatabaseHelper) : ViewModel() {
                     phone.attributes[attribute]?.score?.toDouble() ?: 0.0
                 }
             }
+    }*/
+    fun getBestPhoneByBudget(budget: Float): Phone? {
+        return phones
+            .filter { phone ->
+                val price = phone.attributes["Price"]?.specification?.replace(Regex("[^\\d.]"), "")?.toFloatOrNull()
+                price != null && price in (budget - 50)..(budget + 50)
+            }
+            .maxByOrNull { phone ->
+                phone.attributes.values.map { it.score }.average()
+            }
     }
+
     fun getBestPhoneBySelectedAttributesWithinBudget(selectedAttributes: List<String>, minBudget: Float,maxBudget:Float ): Phone? {
         return phones
             .filter { phone ->
@@ -93,25 +97,10 @@ class PhoneViewModel(private val dbHelper: DatabaseHelper) : ViewModel() {
                     phone.attributes[attribute]?.score?.toDouble() ?: 0.0
                 }
             }
+            "Avg Score" -> phones.sortedByDescending { phone ->
+                phone.attributes.values.map { it.score }.average()
+            }
             else -> phones.sortedBy {  phone -> phone.nombre }
         }
     }
-
-    fun getBestPhoneWithinBudget(price: Float): Phone? {
-        return dbHelper.getAllPhones()
-            .filter { it.attributes["Price"]?.specification?.replace(Regex("[^\\d.]"), "")?.toFloatOrNull()?.let { phonePrice -> phonePrice in (price - 50)..(price + 50) } == true }
-            .maxWithOrNull(compareBy { it.attributes.values.sumOf { attribute -> attribute.score.toDouble() ?: 0.0 } })
-    }
-    fun getPhonesSortedAscending(attribute: String): List<Phone> {
-        return phones.sortedBy { phone ->
-            phone.attributes[attribute]?.specification?.removePrefix("$")?.toFloatOrNull() ?: Float.MAX_VALUE
-        }
-    }
-
-    fun getPhonesSortedDescending(attribute: String): List<Phone> {
-        return phones.sortedByDescending { phone ->
-            phone.attributes[attribute]?.specification?.removePrefix("$")?.toFloatOrNull() ?: Float.MIN_VALUE
-        }
-    }
-
 }

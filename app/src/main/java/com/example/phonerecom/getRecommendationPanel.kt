@@ -12,7 +12,6 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -28,7 +27,7 @@ fun GetRecommendationPanel(navController: NavHostController, phoneViewModel: Pho
     val context = LocalContext.current
     var phones by remember { mutableStateOf(listOf<Phone>()) }
     var selectedAttributes by remember { mutableStateOf(listOf<String>()) }
-    val sortParameters = listOf("Score","Name", "Software", "Screen", "Camera",
+    val sortParameters = listOf("Name", "Software", "Screen", "Camera",
         "Battery", "Build Quality", "Speaker", "Microphone", "RAM", "Internal Memory",
         "CPU", "GPU", "Size", "Reviews", "User Opinions", "Popularity", "Price")
 
@@ -44,6 +43,7 @@ fun GetRecommendationPanel(navController: NavHostController, phoneViewModel: Pho
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
+
         IconButton(onClick = { navController.navigate("user_panel") }) {
             Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
         }
@@ -60,7 +60,7 @@ fun GetRecommendationPanel(navController: NavHostController, phoneViewModel: Pho
             modifier = Modifier.fillMaxWidth().padding(bottom = 16.dp),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
         )
-
+        Text("Use the button below to get a phone recommendation based on your budget and selected attributes.")
         Button(
             onClick = {
                 val budgetValue = budget.toFloatOrNull()
@@ -74,6 +74,20 @@ fun GetRecommendationPanel(navController: NavHostController, phoneViewModel: Pho
             modifier = Modifier.fillMaxWidth().padding(bottom = 16.dp)
         ) {
             Text("Get Recommendation by Budget")
+        }
+        Text("Use the button below to get the best score phone based on your budget.")
+        Button(
+            onClick = {
+                val budgetValue = budget.toFloatOrNull()
+                if (budgetValue != null) {
+                    recommendedPhone = phoneViewModel.getBestPhoneByBudget(budgetValue)
+                } else {
+                    Toast.makeText(context, "Invalid budget", Toast.LENGTH_SHORT).show()
+                }
+            },
+            modifier = Modifier.fillMaxWidth().padding(bottom = 16.dp)
+        ) {
+            Text("Best phone by budget")
         }
         Column(
             modifier = Modifier

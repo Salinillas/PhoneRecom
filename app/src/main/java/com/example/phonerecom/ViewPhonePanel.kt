@@ -16,7 +16,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 
 
@@ -26,15 +25,13 @@ import androidx.navigation.NavHostController
 fun ViewPhonesPanel(navController: NavHostController, phoneViewModel: PhoneViewModel) {
     var phones by remember { mutableStateOf(listOf<Phone>()) }
     var phonesToShow by remember { mutableStateOf(listOf<Phone>()) }
-    var selectedSortParameter by remember { mutableStateOf("Name") }
     var sortOrder by remember { mutableStateOf("Ascending") }
     var minPrice by remember { mutableStateOf("") }
     var maxPrice by remember { mutableStateOf("") }
     val context = LocalContext.current
-    var expandedSortParameter by remember { mutableStateOf(false) }
     var expandedSortOrder by remember { mutableStateOf(false) }
     var selectedAttributes by remember { mutableStateOf(listOf<String>()) }
-    val sortParameters = listOf("Score", "Software", "Screen", "Camera",
+    val sortParameters = listOf("Software", "Screen", "Camera",
         "Battery", "Build Quality", "Speaker", "Microphone", "RAM", "Internal Memory",
         "CPU", "GPU", "Size", "Reviews", "User Opinions", "Popularity", "Price")
 
@@ -95,7 +92,7 @@ fun ViewPhonesPanel(navController: NavHostController, phoneViewModel: PhoneViewM
             OutlinedTextField(
                 value = sortOrder,
                 onValueChange = { sortOrder = it },
-                label = { Text("Sort order") },
+                label = { Text("Sort Type") },
                 modifier = Modifier.fillMaxWidth().padding(bottom = 16.dp),
                 readOnly = true,
                 trailingIcon = {
@@ -108,9 +105,9 @@ fun ViewPhonesPanel(navController: NavHostController, phoneViewModel: PhoneViewM
                 expanded = expandedSortOrder,
                 onDismissRequest = { expandedSortOrder = false }
             ) {
-                val sortParameters = listOf("Ascending","Descending")
+                val sortOrders = listOf("Ascending","Descending","Avg Score")
 
-                sortParameters.forEach { parameter ->
+                sortOrders.forEach { parameter ->
                     DropdownMenuItem(
                         text = { Text(parameter) },
                         onClick = {
@@ -158,7 +155,7 @@ fun ViewPhonesPanel(navController: NavHostController, phoneViewModel: PhoneViewM
             },
             modifier = Modifier.fillMaxWidth().padding(bottom = 16.dp)
         ) {
-            Text("Apply Filters")
+            Text("Filter")
         }
 /*
         // Display the list of phones
@@ -233,6 +230,9 @@ fun ViewPhonesPanel(navController: NavHostController, phoneViewModel: PhoneViewM
                 }
             }
         }*/
+        if(sortOrder == "Avg Score"){
+            Toast.makeText(context, "Sorting by Avg Score ingnores the other search parameters", Toast.LENGTH_LONG).show()
+        }
         phoneViewModel.sortPhonesByAttributes(phonesToShow, selectedAttributes, sortOrder).forEach { phone ->
             Column(
                 modifier = Modifier

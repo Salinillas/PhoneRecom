@@ -1108,6 +1108,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         cursor.close()
         return phones
     }
+    /*
     fun getPhonesByPriceRange(minPrice: Float, maxPrice: Float): List<Phone> {
         val db = readableDatabase
         val cursor = db.query(TABLE_PHONE, null, null, null, null, null, null)
@@ -1137,7 +1138,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         cursor.close()
         return phones
     }
-
+*/
     companion object {
         private const val DATABASE_NAME = "phonerecom.db"
         private const val DATABASE_VERSION = 1
