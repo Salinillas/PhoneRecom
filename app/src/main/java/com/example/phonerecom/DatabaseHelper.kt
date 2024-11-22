@@ -17,7 +17,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
 
         // Insert initial phone data
         val initialPhones = listOf(
-            /*
+
             Phone(0, "Phone A", mapOf(
                 "Software" to PhoneAttribute("Android 11", 8.5f),
                 "Screen" to PhoneAttribute("6.5 inches", 9.0f),
@@ -254,7 +254,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
             )),
             Phone(0, "Samsung Galaxy S24", mapOf(
                 "Software" to PhoneAttribute("Android 14", 9.5f),
-                "Screen" to PhoneAttribute("6.2 inches", 9.5f),
+                "Screen" to PhoneAttribute("6.2 inches", 10f),
                 "Camera" to PhoneAttribute("108 MP", 9.5f),
                 "Battery" to PhoneAttribute("4200 mAh", 9.0f),
                 "Build_Quality" to PhoneAttribute("Glass", 9.5f),
@@ -268,9 +268,9 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
                 "Reviews" to PhoneAttribute("Excellent", 9.5f),
                 "User_Opinions" to PhoneAttribute("Very Positive", 9.5f),
                 "Popularity" to PhoneAttribute("Very High", 9.5f),
-                "Price" to PhoneAttribute("$899", 9.0f)
+                "Price" to PhoneAttribute("$899", 9.75f)
             )),
-            */
+
             Phone(0, "iPhone 16", mapOf(
                 "Software" to PhoneAttribute("iOS 18", 9.5f),
                 "Screen" to PhoneAttribute("6.2 inches", 9.5f),
@@ -291,7 +291,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
             )),
             Phone(0, "Google Pixel 8", mapOf(
                 "Software" to PhoneAttribute("Android 14", 9.5f),
-                "Screen" to PhoneAttribute("6.4 inches", 9.0f),
+                "Screen" to PhoneAttribute("6.4 inches", 9.75f),
                 "Camera" to PhoneAttribute("50 MP", 9.5f),
                 "Battery" to PhoneAttribute("4500 mAh", 9.0f),
                 "Build_Quality" to PhoneAttribute("Glass", 9.0f),
@@ -327,7 +327,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
             )),
             Phone(0, "Xiaomi 14 Pro", mapOf(
                 "Software" to PhoneAttribute("Android 14", 9.5f),
-                "Screen" to PhoneAttribute("6.75 inches", 9.5f),
+                "Screen" to PhoneAttribute("6.75 inches", 9.0f),
                 "Camera" to PhoneAttribute("108 MP", 9.5f),
                 "Battery" to PhoneAttribute("5000 mAh", 9.0f),
                 "Build_Quality" to PhoneAttribute("Glass", 9.5f),
@@ -345,7 +345,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
             )),
             Phone(0, "Sony Xperia 1 VI", mapOf(
                 "Software" to PhoneAttribute("Android 14", 9.5f),
-                "Screen" to PhoneAttribute("6.5 inches", 9.5f),
+                "Screen" to PhoneAttribute("6.5 inches", 9.75f),
                 "Camera" to PhoneAttribute("48 MP", 9.5f),
                 "Battery" to PhoneAttribute("5100 mAh", 9.0f),
                 "Build_Quality" to PhoneAttribute("Glass", 9.5f),
