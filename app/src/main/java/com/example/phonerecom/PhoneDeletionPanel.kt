@@ -38,7 +38,7 @@ fun PhoneDeletionPanel(navController: NavHostController, phoneViewModel: PhoneVi
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        IconButton(onClick = { navController.navigate("user_panel") }) {
+        IconButton(onClick = { navController.navigate("admin_panel") }) {
             Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
         }
 

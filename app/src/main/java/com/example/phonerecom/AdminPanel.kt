@@ -43,6 +43,7 @@ fun AdminPanel(navController: NavController, viewModel: LoginViewModel) {
             showUserList = false
             modifyUser = false
         } else {
+            viewModel.logout()
             navController.navigate("login")
         }
     }
@@ -296,6 +297,7 @@ fun AdminPanel(navController: NavController, viewModel: LoginViewModel) {
             ) {
                 Text("Phone Panel")
             }
+
         }
     }
 }

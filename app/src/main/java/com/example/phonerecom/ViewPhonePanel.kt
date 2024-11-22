@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 
 
@@ -32,6 +33,10 @@ fun ViewPhonesPanel(navController: NavHostController, phoneViewModel: PhoneViewM
     val context = LocalContext.current
     var expandedSortParameter by remember { mutableStateOf(false) }
     var expandedSortOrder by remember { mutableStateOf(false) }
+    var selectedAttributes by remember { mutableStateOf(listOf<String>()) }
+    val sortParameters = listOf("Score", "Software", "Screen", "Camera",
+        "Battery", "Build Quality", "Speaker", "Microphone", "RAM", "Internal Memory",
+        "CPU", "GPU", "Size", "Reviews", "User Opinions", "Popularity", "Price")
 
     LaunchedEffect(Unit) {
         phones = phoneViewModel.getAllPhones()
@@ -49,7 +54,7 @@ fun ViewPhonesPanel(navController: NavHostController, phoneViewModel: PhoneViewM
             Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
         }
         // Dropdown menu for sorting parameters
-        Box {
+        /*Box {
             OutlinedTextField(
                 value = selectedSortParameter,
                 onValueChange = { selectedSortParameter = it },
@@ -80,8 +85,12 @@ fun ViewPhonesPanel(navController: NavHostController, phoneViewModel: PhoneViewM
                     )
                 }
             }
-        }
-
+        }*/
+        MultiSelectDropdown(
+            options = sortParameters,
+            selectedOptions = selectedAttributes,
+            onSelectionChange = { selectedAttributes = it }
+        )
         Box {
             OutlinedTextField(
                 value = sortOrder,
@@ -151,7 +160,7 @@ fun ViewPhonesPanel(navController: NavHostController, phoneViewModel: PhoneViewM
         ) {
             Text("Apply Filters")
         }
-
+/*
         // Display the list of phones
         when (sortOrder){
             "Ascending" -> phonesToShow.sortedBy { phone ->
@@ -221,6 +230,22 @@ fun ViewPhonesPanel(navController: NavHostController, phoneViewModel: PhoneViewM
                     phone.attributes.forEach { (key, attribute) ->
                         Text("$key: ${attribute.specification} (Score: ${attribute.score})")
                     }
+                }
+            }
+        }*/
+        phoneViewModel.sortPhonesByAttributes(phonesToShow, selectedAttributes, sortOrder).forEach { phone ->
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(8.dp)
+            ) {
+                Text(
+                    "Name: ${phone.nombre} (Average Score: ${
+                        phone.attributes.values.map { it.score }.average()
+                    })", style = MaterialTheme.typography.bodyLarge
+                )
+                phone.attributes.forEach { (key, attribute) ->
+                    Text("$key: ${attribute.specification} (Score: ${attribute.score})")
                 }
             }
         }

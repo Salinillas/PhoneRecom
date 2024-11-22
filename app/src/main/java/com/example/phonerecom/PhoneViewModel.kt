@@ -56,10 +56,50 @@ class PhoneViewModel(private val dbHelper: DatabaseHelper) : ViewModel() {
             .filter { it.attributes["Price"]?.specification?.removePrefix("$")?.toFloatOrNull()?.let { price -> price in (budget - 50)..(budget + 50) } == true }
             .maxByOrNull { it.attributes[attribute]?.score ?: 0f }
     }
+    fun getBestPhoneBySelectedAttributesWithinBudget(selectedAttributes: List<String>, budget: Float): Phone? {
+        return phones
+            .filter { phone ->
+                val price = phone.attributes["Price"]?.specification?.removePrefix("$")?.toFloatOrNull()
+                price != null && price in (budget - 50)..(budget + 50)
+            }
+            .maxByOrNull { phone ->
+                selectedAttributes.sumOf { attribute ->
+                    phone.attributes[attribute]?.score?.toDouble() ?: 0.0
+                }
+            }
+    }
+    fun getBestPhoneBySelectedAttributesWithinBudget(selectedAttributes: List<String>, minBudget: Float,maxBudget:Float ): Phone? {
+        return phones
+            .filter { phone ->
+                val price = phone.attributes["Price"]?.specification?.replace(Regex("[^\\d.]"), "")?.toFloatOrNull()
+                price != null && price in (minBudget)..(maxBudget)
+            }
+            .maxByOrNull { phone ->
+                selectedAttributes.sumOf { attribute ->
+                    phone.attributes[attribute]?.score?.toDouble() ?: 0.0
+                }
+            }
+    }
+
+    fun sortPhonesByAttributes(phones: List<Phone>, attributes: List<String>, order: String): List<Phone> {
+        return when (order) {
+            "Ascending" -> phones.sortedBy { phone ->
+                attributes.sumOf { attribute ->
+                    phone.attributes[attribute]?.score?.toDouble() ?: 0.0
+                }
+            }
+            "Descending" -> phones.sortedByDescending { phone ->
+                attributes.sumOf { attribute ->
+                    phone.attributes[attribute]?.score?.toDouble() ?: 0.0
+                }
+            }
+            else -> phones.sortedBy {  phone -> phone.nombre }
+        }
+    }
 
     fun getBestPhoneWithinBudget(price: Float): Phone? {
         return dbHelper.getAllPhones()
-            .filter { it.attributes["Price"]?.specification?.removePrefix("$")?.toFloatOrNull()?.let { phonePrice -> phonePrice in (price - 50)..(price + 50) } == true }
+            .filter { it.attributes["Price"]?.specification?.replace(Regex("[^\\d.]"), "")?.toFloatOrNull()?.let { phonePrice -> phonePrice in (price - 50)..(price + 50) } == true }
             .maxWithOrNull(compareBy { it.attributes.values.sumOf { attribute -> attribute.score.toDouble() ?: 0.0 } })
     }
     fun getPhonesSortedAscending(attribute: String): List<Phone> {

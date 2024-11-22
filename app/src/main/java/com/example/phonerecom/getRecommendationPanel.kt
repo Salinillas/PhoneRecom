@@ -26,11 +26,15 @@ fun GetRecommendationPanel(navController: NavHostController, phoneViewModel: Pho
     var budget by remember { mutableStateOf("") }
     var recommendedPhone by remember { mutableStateOf<Phone?>(null) }
     val context = LocalContext.current
-    var expandedSortParameter by remember { mutableStateOf(false) }
-    var selectedSortParameter by remember { mutableStateOf("Name") }
+    var phones by remember { mutableStateOf(listOf<Phone>()) }
+    var selectedAttributes by remember { mutableStateOf(listOf<String>()) }
     val sortParameters = listOf("Score","Name", "Software", "Screen", "Camera",
         "Battery", "Build Quality", "Speaker", "Microphone", "RAM", "Internal Memory",
         "CPU", "GPU", "Size", "Reviews", "User Opinions", "Popularity", "Price")
+
+    LaunchedEffect(Unit) {
+        phones = phoneViewModel.getAllPhones()
+    }
 
     Column(
         modifier = Modifier
@@ -43,36 +47,12 @@ fun GetRecommendationPanel(navController: NavHostController, phoneViewModel: Pho
         IconButton(onClick = { navController.navigate("user_panel") }) {
             Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
         }
-        Box {
-            OutlinedTextField(
-                value = selectedSortParameter,
-                onValueChange = { selectedSortParameter = it },
-                label = { Text("Sort by") },
-                modifier = Modifier.fillMaxWidth().padding(bottom = 16.dp),
-                readOnly = true,
-                trailingIcon = {
-                    IconButton(onClick = { expandedSortParameter = true }) {
-                        Icon(Icons.Default.ArrowDropDown, contentDescription = "Dropdown")
-                    }
-                }
-            )
-            DropdownMenu(
-                expanded = expandedSortParameter,
-                onDismissRequest = { expandedSortParameter = false }
-            ) {
 
-
-                sortParameters.forEach { parameter ->
-                    DropdownMenuItem(
-                        text = { Text(parameter) },
-                        onClick = {
-                            selectedSortParameter = parameter
-                            expandedSortParameter = false
-                        }
-                    )
-                }
-            }
-        }
+        MultiSelectDropdown(
+            options = sortParameters,
+            selectedOptions = selectedAttributes,
+            onSelectionChange = { selectedAttributes = it }
+        )
         OutlinedTextField(
             value = budget,
             onValueChange = { budget = it },
@@ -85,8 +65,8 @@ fun GetRecommendationPanel(navController: NavHostController, phoneViewModel: Pho
             onClick = {
                 val budgetValue = budget.toFloatOrNull()
                 if (budgetValue != null) {
-                    recommendedPhone = phoneViewModel.getBestPhoneWithinBudget(budgetValue)
-                    navController.navigate("recommended_phone_panel")
+                    recommendedPhone = phoneViewModel.getBestPhoneBySelectedAttributesWithinBudget(selectedAttributes,
+                        budgetValue-50, budgetValue+50)
                 } else {
                     Toast.makeText(context, "Invalid budget", Toast.LENGTH_SHORT).show()
                 }
@@ -95,25 +75,21 @@ fun GetRecommendationPanel(navController: NavHostController, phoneViewModel: Pho
         ) {
             Text("Get Recommendation by Budget")
         }
-
-        //val attributes = listOf("Software", "Screen", "Camera", "Battery", "Build Quality", "Speaker", "Microphone", "RAM", "Internal Memory", "CPU", "GPU", "Size", "Reviews", "User Opinions", "Popularity", "Price")
-        /*
-        attributes.forEach { attribute ->
-            Button(
-                onClick = {
-                    val budgetValue = budget.toFloatOrNull()
-                    if (budgetValue != null) {
-
-                        recommendedPhone = phoneViewModel.getBestPhoneByAttributeWithinBudget(attribute, budgetValue)
-                        navController.navigate("recommended_phone_panel")
-                    } else {
-                        Toast.makeText(context, "Invalid budget", Toast.LENGTH_SHORT).show()
-                    }
-                },
-                modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp)
-            ) {
-                Text("Get Recommendation by $attribute")
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(8.dp)
+        ) {
+            Text("Recommended Phone:")
+            if (recommendedPhone != null) {
+                Text("ID: ${recommendedPhone!!.id}, Name: ${recommendedPhone!!.nombre} (Average Score: ${
+                    recommendedPhone!!.attributes.values.map { it.score }.average()
+                })")
+                recommendedPhone!!.attributes.forEach { (key, attribute) ->
+                    Text("$key: ${attribute.specification} (Score: ${attribute.score})")
+                }
             }
-        }*/
+        }
+
     }
 }

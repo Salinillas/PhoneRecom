@@ -7,7 +7,7 @@ import kotlinx.coroutines.launch
 
 class LoginViewModel(private val dbHelper: DatabaseHelper) : ViewModel() {
     private var currentUser: String? = null
-
+    private var currentUserRole: String? = null
     fun login(username: String, password: String, callback: (Boolean, String?) -> Unit) {
         viewModelScope.launch {
             val db = dbHelper.readableDatabase
@@ -23,6 +23,7 @@ class LoginViewModel(private val dbHelper: DatabaseHelper) : ViewModel() {
             if (cursor.moveToFirst()) {
                 currentUser = username
                 val role = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_ROLE))
+                currentUserRole = role
                 callback(true, role)
             } else {
                 callback(false, null)
@@ -34,7 +35,9 @@ class LoginViewModel(private val dbHelper: DatabaseHelper) : ViewModel() {
     fun logout() {
         currentUser = null
     }
-
+    fun isAdmin(): Boolean {
+        return currentUserRole.equals("admin")
+    }
     fun isLoggedIn(): Boolean {
         return currentUser != null
     }

@@ -24,7 +24,9 @@ fun UserPanel(navController: NavController, viewModel: LoginViewModel) {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        IconButton(onClick = { navController.navigate("login") }) {
+        IconButton(onClick = {
+            viewModel.logout()
+            navController.navigate("login") }) {
             Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
         }
 
@@ -48,7 +50,7 @@ fun UserPanel(navController: NavController, viewModel: LoginViewModel) {
         ) {
             Text("FAQ")
         }
-
+/*
         Button(
             onClick = {
                 viewModel.logout()
@@ -59,6 +61,6 @@ fun UserPanel(navController: NavController, viewModel: LoginViewModel) {
             modifier = Modifier.fillMaxWidth()
         ) {
             Text("Logout")
-        }
+        }*/
     }
 }
