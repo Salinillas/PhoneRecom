@@ -1,6 +1,7 @@
 // app/src/main/java/com/example/phonerecom/LoginScreen.kt
 package com.example.phonerecom
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
@@ -18,13 +19,15 @@ fun LoginScreen(navController: NavController, viewModel: LoginViewModel) {
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var error by remember { mutableStateOf<String?>(null) }
-
+    BackHandler {
+        // Do nothing to prevent back navigation
+    }
     Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+        verticalArrangement = Arrangement.Top
     ) {
         Text(
             text = "Login",

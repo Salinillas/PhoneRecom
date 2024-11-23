@@ -50,39 +50,7 @@ fun ViewPhonesPanel(navController: NavHostController, phoneViewModel: PhoneViewM
         IconButton(onClick = { navController.navigate("user_panel") }) {
             Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
         }
-        // Dropdown menu for sorting parameters
-        /*Box {
-            OutlinedTextField(
-                value = selectedSortParameter,
-                onValueChange = { selectedSortParameter = it },
-                label = { Text("Sort by") },
-                modifier = Modifier.fillMaxWidth().padding(bottom = 16.dp),
-                readOnly = true,
-                trailingIcon = {
-                    IconButton(onClick = { expandedSortParameter = true }) {
-                        Icon(Icons.Default.ArrowDropDown, contentDescription = "Dropdown")
-                    }
-                }
-            )
-            DropdownMenu(
-                expanded = expandedSortParameter,
-                onDismissRequest = { expandedSortParameter = false }
-            ) {
-                val sortParameters = listOf("Score","Name", "Software", "Screen", "Camera",
-                    "Battery", "Build Quality", "Speaker", "Microphone", "RAM", "Internal Memory",
-                    "CPU", "GPU", "Size", "Reviews", "User Opinions", "Popularity", "Price")
 
-                sortParameters.forEach { parameter ->
-                    DropdownMenuItem(
-                        text = { Text(parameter) },
-                        onClick = {
-                            selectedSortParameter = parameter
-                            expandedSortParameter = false
-                        }
-                    )
-                }
-            }
-        }*/
         MultiSelectDropdown(
             options = sortParameters,
             selectedOptions = selectedAttributes,
@@ -157,79 +125,7 @@ fun ViewPhonesPanel(navController: NavHostController, phoneViewModel: PhoneViewM
         ) {
             Text("Filter")
         }
-/*
-        // Display the list of phones
-        when (sortOrder){
-            "Ascending" -> phonesToShow.sortedBy { phone ->
-                when (selectedSortParameter) {
-                    "Score" -> phone.attributes.values.sumOf { (it.score * 1000).toInt() }
-                    "Price" -> phone.attributes["Price"]?.specification?.replace(Regex("[^\\d.]"), "")?.toFloatOrNull() ?: Float.MAX_VALUE
-                    "Name" -> phone.nombre
-                    "Software" -> phone.attributes["Software"]?.score ?: 0f
-                    "Screen" -> phone.attributes["Screen"]?.score ?: 0f
-                    "Camera" -> phone.attributes["Camera"]?.score ?: 0f
-                    "Battery" -> phone.attributes["Battery"]?.score ?: 0f
-                    "Build Quality" -> phone.attributes["Build_Quality"]?.score ?: 0f
-                    "Speaker" -> phone.attributes["Speaker"]?.score ?: 0f
-                    "Microphone" -> phone.attributes["Microphone"]?.score ?: 0f
-                    "RAM" -> phone.attributes["RAM"]?.score ?: 0f
-                    "Internal Memory" -> phone.attributes["Internal_Memory"]?.score ?: 0f
-                    "CPU" -> phone.attributes["CPU"]?.score ?: 0f
-                    "GPU" -> phone.attributes["GPU"]?.score ?: 0f
-                    "Size" -> phone.attributes["Size"]?.score ?: 0f
-                    "Reviews" -> phone.attributes["Reviews"]?.score ?: 0f
-                    "User Opinions" -> phone.attributes["User_Opinions"]?.score ?: 0f
-                    "Popularity" -> phone.attributes["Popularity"]?.score ?: 0f
-                    else -> phone.nombre
-                } as Comparable<Any>
-            }.forEach { phone ->
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(8.dp)
-                ) {
-                    Text("Name: ${phone.nombre} (Average Score: ${phone.attributes.values.map { it.score }.average()})", style = MaterialTheme.typography.bodyLarge)
-                    phone.attributes.forEach { (key, attribute) ->
-                        Text("$key: ${attribute.specification} (Score: ${attribute.score})")
-                    }
-                }
-            }
 
-            "Descending" -> phonesToShow.sortedByDescending { phone ->
-                when (selectedSortParameter) {
-                    "Score" -> phone.attributes.values.sumOf { (it.score * 1000).toInt() }
-                    "Price" -> phone.attributes["Price"]?.specification?.replace(Regex("[^\\d.]"), "")?.toFloatOrNull() ?: Float.MAX_VALUE
-                    "Name" -> phone.nombre
-                    "Software" -> phone.attributes["Software"]?.score ?: 0f
-                    "Screen" -> phone.attributes["Screen"]?.score ?: 0f
-                    "Camera" -> phone.attributes["Camera"]?.score ?: 0f
-                    "Battery" -> phone.attributes["Battery"]?.score ?: 0f
-                    "Build Quality" -> phone.attributes["Build_Quality"]?.score ?: 0f
-                    "Speaker" -> phone.attributes["Speaker"]?.score ?: 0f
-                    "Microphone" -> phone.attributes["Microphone"]?.score ?: 0f
-                    "RAM" -> phone.attributes["RAM"]?.score ?: 0f
-                    "Internal Memory" -> phone.attributes["Internal_Memory"]?.score ?: 0f
-                    "CPU" -> phone.attributes["CPU"]?.score ?: 0f
-                    "GPU" -> phone.attributes["GPU"]?.score ?: 0f
-                    "Size" -> phone.attributes["Size"]?.score ?: 0f
-                    "Reviews" -> phone.attributes["Reviews"]?.score ?: 0f
-                    "User Opinions" -> phone.attributes["User_Opinions"]?.score ?: 0f
-                    "Popularity" -> phone.attributes["Popularity"]?.score ?: 0f
-                    else -> phone.nombre
-                } as Comparable<Any>
-            }.forEach { phone ->
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(8.dp)
-                ) {
-                    Text("Name: ${phone.nombre} (Average Score: ${phone.attributes.values.map { it.score }.average()})", style = MaterialTheme.typography.bodyLarge)
-                    phone.attributes.forEach { (key, attribute) ->
-                        Text("$key: ${attribute.specification} (Score: ${attribute.score})")
-                    }
-                }
-            }
-        }*/
         if(sortOrder == "Avg Score"){
             Toast.makeText(context, "Sorting by Avg Score ingnores the other search parameters", Toast.LENGTH_LONG).show()
         }

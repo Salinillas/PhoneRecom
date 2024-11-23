@@ -36,28 +36,11 @@ fun PhoneDeletionPanel(navController: NavHostController, phoneViewModel: PhoneVi
             .padding(16.dp)
             .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+        verticalArrangement = Arrangement.Top
     ) {
         IconButton(onClick = { navController.navigate("admin_panel") }) {
             Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
         }
-
-        phones.forEach { phone ->
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clickable { selectedPhone = phone }
-                    .padding(8.dp)
-            ) {
-                Text("ID: ${phone.id}, Name: ${phone.nombre}")
-                if (selectedPhone == phone) {
-                    phone.attributes.forEach { (key, attribute) ->
-                        Text("$key: ${attribute.specification} (Score: ${attribute.score})")
-                    }
-                }
-            }
-        }
-
         OutlinedTextField(
             value = phoneId,
             onValueChange = { phoneId = it },
@@ -66,7 +49,6 @@ fun PhoneDeletionPanel(navController: NavHostController, phoneViewModel: PhoneVi
                 .fillMaxWidth()
                 .padding(bottom = 16.dp)
         )
-
         Button(
             onClick = {
                 val id = phoneId.toIntOrNull()
@@ -81,6 +63,21 @@ fun PhoneDeletionPanel(navController: NavHostController, phoneViewModel: PhoneVi
             modifier = Modifier.fillMaxWidth()
         ) {
             Text("Delete Phone")
+        }
+        phones.forEach { phone ->
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable { selectedPhone = phone }
+                    .padding(8.dp)
+            ) {
+                Text("ID: ${phone.id}, Name: ${phone.nombre}")
+                if (selectedPhone == phone) {
+                    phone.attributes.forEach { (key, attribute) ->
+                        Text("$key: ${attribute.specification} (Score: ${attribute.score})")
+                    }
+                }
+            }
         }
     }
 }

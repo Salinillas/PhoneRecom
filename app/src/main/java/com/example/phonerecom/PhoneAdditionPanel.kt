@@ -69,7 +69,7 @@ fun PhoneAdditionPanel(navController: NavHostController, phoneViewModel: PhoneVi
             .padding(16.dp)
             .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+        verticalArrangement = Arrangement.Top
     ) {
         IconButton(onClick = { navController.navigate("phone_panel") }) {
             Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")

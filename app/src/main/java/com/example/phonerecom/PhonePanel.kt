@@ -23,7 +23,7 @@ fun PhonePanel(navController: NavHostController, phoneViewModel: PhoneViewModel)
     Column(
         modifier = Modifier.fillMaxSize().padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+        verticalArrangement = Arrangement.Top
     ) {
         IconButton(onClick = { navController.navigate("admin_panel") }) {
             Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")

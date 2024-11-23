@@ -1,6 +1,7 @@
 // app/src/main/java/com/example/phonerecom/UserPanel.kt
 package com.example.phonerecom
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
@@ -21,11 +22,19 @@ fun UserPanel(navController: NavController, viewModel: LoginViewModel) {
             .fillMaxSize()
             .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+        verticalArrangement = Arrangement.Top
     ) {
+        BackHandler { viewModel.logout()
+            navController.navigate("login") {
+                popUpTo(navController.graph.startDestinationId) { inclusive = true }
+            }
+        }
         IconButton(onClick = {
             viewModel.logout()
-            navController.navigate("login") }) {
+            navController.navigate("login") {
+                popUpTo(navController.graph.startDestinationId) { inclusive = true }
+            }
+        }) {
             Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
         }
 
@@ -49,17 +58,5 @@ fun UserPanel(navController: NavController, viewModel: LoginViewModel) {
         ) {
             Text("FAQ")
         }
-/*
-        Button(
-            onClick = {
-                viewModel.logout()
-                navController.navigate("login") {
-                    popUpTo("user_panel") { inclusive = true }
-                }
-            },
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Text("Logout")
-        }*/
     }
 }

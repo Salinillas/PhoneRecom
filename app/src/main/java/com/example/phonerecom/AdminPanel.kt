@@ -52,7 +52,7 @@ fun AdminPanel(navController: NavController, viewModel: LoginViewModel) {
             .fillMaxSize()
             .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+        verticalArrangement = Arrangement.Top
     ) {
         if (showUserForm || showUserList) {
             IconButton(onClick = {
@@ -178,13 +178,14 @@ fun AdminPanel(navController: NavController, viewModel: LoginViewModel) {
                                 selectedUser = user
                                 username = user.username
                                 password = user.password
+                                role = user.role
                                 showUserList = false
                                 modifyUser = true
                             }
                             .padding(8.dp),
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
-                        Text(user.username)
+                        Text(user.username + " - " + user.role)
                         Button(onClick = {
                             viewModel.deleteUser(user.username) { success ->
                                 if (success) {

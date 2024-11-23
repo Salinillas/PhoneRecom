@@ -25,15 +25,12 @@ fun GetRecommendationPanel(navController: NavHostController, phoneViewModel: Pho
     var budget by remember { mutableStateOf("") }
     var recommendedPhone by remember { mutableStateOf<Phone?>(null) }
     val context = LocalContext.current
-    var phones by remember { mutableStateOf(listOf<Phone>()) }
     var selectedAttributes by remember { mutableStateOf(listOf<String>()) }
     val sortParameters = listOf("Software", "Screen", "Camera",
         "Battery", "Build Quality", "Speaker", "Microphone", "RAM", "Internal Memory",
         "CPU", "GPU", "Size", "Reviews", "User Opinions", "Popularity", "Price")
 
-    LaunchedEffect(Unit) {
-        phones = phoneViewModel.getAllPhones()
-    }
+
 
     Column(
         modifier = Modifier
@@ -41,7 +38,7 @@ fun GetRecommendationPanel(navController: NavHostController, phoneViewModel: Pho
             .padding(16.dp)
             .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+        verticalArrangement = Arrangement.Top
     ) {
 
         IconButton(onClick = { navController.navigate("user_panel") }) {
@@ -64,7 +61,9 @@ fun GetRecommendationPanel(navController: NavHostController, phoneViewModel: Pho
         Button(
             onClick = {
                 val budgetValue = budget.toFloatOrNull()
-                if (budgetValue != null) {
+                if(selectedAttributes.isEmpty()) {
+                    Toast.makeText(context, "Please select at least one attribute", Toast.LENGTH_SHORT).show()
+                } else if (budgetValue != null) {
                     recommendedPhone = phoneViewModel.getBestPhoneBySelectedAttributesWithinBudget(selectedAttributes,
                         budgetValue-50, budgetValue+50)
                 } else {
