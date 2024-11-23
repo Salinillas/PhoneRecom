@@ -32,7 +32,7 @@ class MainActivity : ComponentActivity() {
                         composable("login") { LoginScreen(navController, viewModel) }
                         composable("admin_panel") { AdminPanel(navController, viewModel) }
                         composable("user_panel") { UserPanel(navController, viewModel) }
-                        composable("phone_panel") { PhonePanel(navController, phoneViewModel) }
+                        composable("phone_panel") { PhonePanel(navController) }
                         composable("phone_addition_panel") { PhoneAdditionPanel(navController, phoneViewModel) }
                         composable("phone_deletion_panel") { PhoneDeletionPanel(navController, phoneViewModel) }
                         composable("get_recommendation_panel") { GetRecommendationPanel(navController, phoneViewModel) }
