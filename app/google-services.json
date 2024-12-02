@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "319907375999",
+    "project_id": "phonerecom",
+    "storage_bucket": "phonerecom.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:319907375999:android:13944981ad0e6d2438c84a",
+        "android_client_info": {
+          "package_name": "com.example.phonerecom"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB1MQOjpp-U0hN7ePp4JVtFN6lUdIb1YS0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
