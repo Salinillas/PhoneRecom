@@ -79,6 +79,28 @@ fun LoginScreen(navController: NavController, viewModel: LoginViewModel) {
             Text("Iniciar Sesión")
         }
 
+        Button(
+            onClick = {
+                viewModel.login(username, password) { success, role ->
+                    if (success) {
+                        if (role == "admin") {
+                            navController.navigate("admin_panel") {
+                                popUpTo("login") { inclusive = true }
+                            }
+                        } else {
+                            navController.navigate("user_panel") {
+                                popUpTo("login") { inclusive = true }
+                            }
+                        }
+                    } else {
+                        error = "Nombre de usuario o contraseña incorrectos"
+                    }
+                }
+            },
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text("Registrarse")
+        }
         if (error != null) {
             Text(
                 text = error!!,

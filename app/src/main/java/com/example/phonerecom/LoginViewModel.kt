@@ -3,11 +3,14 @@ package com.example.phonerecom
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.launch
 
 class LoginViewModel(private val dbHelper: DatabaseHelper) : ViewModel() {
     private var currentUser: String? = null
     private var currentUserRole: String? = null
+    private val auth: FirebaseAuth = FirebaseAuth.getInstance()
+    /*
     fun login(username: String, password: String, callback: (Boolean, String?) -> Unit) {
         viewModelScope.launch {
             val db = dbHelper.readableDatabase
@@ -34,14 +37,24 @@ class LoginViewModel(private val dbHelper: DatabaseHelper) : ViewModel() {
 
     fun logout() {
         currentUser = null
-    }
-    /*
-    fun isAdmin(): Boolean {
-        return currentUserRole.equals("admin")
-    }
-    fun isLoggedIn(): Boolean {
-        return currentUser != null
     }*/
+    fun login(email: String, password: String, callback: (Boolean, String?) -> Unit) {
+        viewModelScope.launch {
+            auth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        callback(true, "user")
+                    } else {
+                        callback(false, task.exception?.message)
+                    }
+                }
+
+        }
+    }
+
+    fun logout(){
+        auth.signOut()
+    }
 
     fun addUser(username: String, password: String, role: String, callback: (Boolean) -> Unit) {
         viewModelScope.launch {
