@@ -1,6 +1,8 @@
 // app/src/main/java/com/example/phonerecom/LoginViewModel.kt
 package com.example.phonerecom
 
+import android.widget.Toast
+import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseAuth
@@ -9,6 +11,7 @@ import kotlinx.coroutines.launch
 class LoginViewModel(private val dbHelper: DatabaseHelper) : ViewModel() {
     private var currentUser: String? = null
     private var currentUserRole: String? = null
+
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
     /*
     fun login(username: String, password: String, callback: (Boolean, String?) -> Unit) {
@@ -38,7 +41,28 @@ class LoginViewModel(private val dbHelper: DatabaseHelper) : ViewModel() {
     fun logout() {
         currentUser = null
     }*/
+    fun register (email: String, password: String, callback: (Boolean, String?) -> Unit) {
+        if(email.isEmpty() || password.isEmpty()) {
+            callback(false, "Por favor ingrese un nombre de usuario y contraseña")
+        }else{
+        viewModelScope.launch {
+            FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        callback(true, "user")
+
+                    } else {
+                        callback(false, task.exception?.message)
+                    }
+                }
+        }
+        }
+    }
+
     fun login(email: String, password: String, callback: (Boolean, String?) -> Unit) {
+        if(email.isEmpty() || password.isEmpty()) {
+            callback(false, "Por favor ingrese un nombre de usuario y contraseña")
+        }else{
         viewModelScope.launch {
             auth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener { task ->
@@ -48,7 +72,7 @@ class LoginViewModel(private val dbHelper: DatabaseHelper) : ViewModel() {
                         callback(false, task.exception?.message)
                     }
                 }
-
+            }
         }
     }
 
