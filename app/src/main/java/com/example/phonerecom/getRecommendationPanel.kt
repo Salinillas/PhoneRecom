@@ -6,6 +6,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.navigation.NavHostController
 import android.widget.Toast
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
@@ -16,14 +17,16 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-
+import coil.compose.AsyncImage
 @Composable
 fun GetRecommendationPanel(navController: NavHostController, phoneViewModel: PhoneViewModel) {
     var budget by remember { mutableStateOf("") }
-    var recommendedPhone by remember { mutableStateOf<Phone?>(null) }
+    var phones by remember { mutableStateOf(listOf<Phone>()) }
+    var selectedPhone by remember { mutableStateOf<Phone?>(null) }
     val context = LocalContext.current
     var selectedAttributes by remember { mutableStateOf(listOf<String>()) }
     val sortParameters = listOf("Software", "Screen", "Camera",
@@ -64,7 +67,7 @@ fun GetRecommendationPanel(navController: NavHostController, phoneViewModel: Pho
                 if(selectedAttributes.isEmpty()) {
                     Toast.makeText(context, "Please select at least one attribute", Toast.LENGTH_SHORT).show()
                 } else if (budgetValue != null) {
-                    recommendedPhone = phoneViewModel.getBestPhoneBySelectedAttributesWithinBudget(selectedAttributes,
+                    phones = phoneViewModel.getBestPhoneBySelectedAttributesWithinBudget(selectedAttributes,
                         budgetValue-50, budgetValue+50)
                 } else {
                     Toast.makeText(context, "Invalid budget", Toast.LENGTH_SHORT).show()
@@ -79,7 +82,7 @@ fun GetRecommendationPanel(navController: NavHostController, phoneViewModel: Pho
             onClick = {
                 val budgetValue = budget.toFloatOrNull()
                 if (budgetValue != null) {
-                    recommendedPhone = phoneViewModel.getBestPhoneByBudget(budgetValue)
+                    phones = phoneViewModel.getBestPhoneByBudget(budgetValue)
                 } else {
                     Toast.makeText(context, "Invalid budget", Toast.LENGTH_SHORT).show()
                 }
@@ -87,7 +90,7 @@ fun GetRecommendationPanel(navController: NavHostController, phoneViewModel: Pho
             modifier = Modifier.fillMaxWidth().padding(bottom = 16.dp)
         ) {
             Text("Best phone by budget")
-        }
+        }/*
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -95,14 +98,50 @@ fun GetRecommendationPanel(navController: NavHostController, phoneViewModel: Pho
         ) {
             Text("Recommended Phone:")
             if (recommendedPhone != null) {
-                Text("ID: ${recommendedPhone!!.id}, Name: ${recommendedPhone!!.nombre} (Average Score: ${
+                Text("Name: ${recommendedPhone!!.name} (Average Score: ${
                     recommendedPhone!!.attributes.values.map { it.score }.average()
                 })")
                 recommendedPhone!!.attributes.forEach { (key, attribute) ->
                     Text("$key: ${attribute.specification} (Score: ${attribute.score})")
                 }
             }
-        }
-
+        }*/
+            phones.forEach { phone ->
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable { selectedPhone = phone }
+                        .padding(8.dp)
+                ) {
+                    Text(
+                        "Name: ${phone.name} (Average Score: ${
+                            phone.attributes.values.map { it.score }.average()
+                        })", style = MaterialTheme.typography.bodyLarge
+                    )
+                    phone.attributes.forEach { (key, attribute) ->
+                        Text("$key: ${attribute.specification} (Score: ${attribute.score})")
+                    }
+                    if(phone.photoUrl.isNotEmpty()){
+                        AsyncImage(
+                            model = phone.photoUrl,
+                            contentDescription = phone.name,
+                            modifier = Modifier
+                                .height(300.dp)
+                                .fillMaxWidth(),
+                            contentScale = ContentScale.Crop
+                        )
+                        }
+                    if (selectedPhone == phone) {
+                        phone.comments.forEach { comment ->
+                            Text(
+                                text = "${comment.author}: ${comment.content} (Score: ${comment.score})",
+                                style = MaterialTheme.typography.bodyMedium,
+                                modifier = Modifier.padding(top = 4.dp)
+                            )
+                        }
+                    }
+                }
+                HorizontalDivider()
+            }
     }
 }

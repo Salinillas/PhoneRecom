@@ -8,21 +8,26 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Button
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import coil.compose.AsyncImage
 
 
 @Composable
 fun PhoneDeletionPanel(navController: NavHostController, phoneViewModel: PhoneViewModel) {
-    var phoneId by remember { mutableStateOf("") }
+    //var phoneId by remember { mutableStateOf("") }
+    var name by remember { mutableStateOf("") }
     var selectedPhone by remember { mutableStateOf<Phone?>(null) }
     var phones by remember { mutableStateOf(listOf<Phone>()) }
     val context = LocalContext.current
@@ -42,39 +47,77 @@ fun PhoneDeletionPanel(navController: NavHostController, phoneViewModel: PhoneVi
             Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
         }
         OutlinedTextField(
-            value = phoneId,
-            onValueChange = { phoneId = it },
-            label = { Text("Phone ID") },
+            value = name,
+            onValueChange = { name = it },
+            label = { Text("Phone name") },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(bottom = 16.dp)
         )
         Button(
             onClick = {
-                val id = phoneId.toIntOrNull()
-                if (id != null) {
-                    phoneViewModel.deletePhone(id)
-                    phoneId = ""
+                val n = name
+                if (n != "" && phoneViewModel.phoneExists(name)) {
+                    phoneViewModel.deletePhone(name)
+                    Toast.makeText(context, "Phone deleted", Toast.LENGTH_SHORT).show()
+                    name = ""
                     phones = phoneViewModel.getAllPhones()
                 } else {
-                    Toast.makeText(context, "Invalid ID", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "Invalid Name", Toast.LENGTH_SHORT).show()
                 }
             },
             modifier = Modifier.fillMaxWidth()
         ) {
             Text("Delete Phone")
         }
+        Button(
+            onClick = {
+                val n = name
+                if (n != "" && phoneViewModel.phoneExists(name)) {
+                    phoneViewModel.setSelectedPhone(phoneViewModel.getPhone(name))
+                    navController.navigate("modify_phone_panel")
+                    //name = ""
+                    //phones = phoneViewModel.getAllPhones()
+                } else {
+                    Toast.makeText(context, "Invalid Name", Toast.LENGTH_SHORT).show()
+                }
+            },
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text("Modify Phone")
+        }
         phones.forEach { phone ->
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .clickable { selectedPhone = phone }
+                    .clickable {
+                        selectedPhone = phone
+                        name = phone.name
+                    }
                     .padding(8.dp)
             ) {
-                Text("ID: ${phone.id}, Name: ${phone.nombre}")
+                Text(phone.name)
                 if (selectedPhone == phone) {
                     phone.attributes.forEach { (key, attribute) ->
                         Text("$key: ${attribute.specification} (Score: ${attribute.score})")
+                    }
+                    if (phone.photoUrl.isNotEmpty()) {
+                        AsyncImage(
+                            model = phone.photoUrl,
+                            contentDescription = phone.name,
+                            modifier = Modifier
+                                .height(300.dp)
+                                .fillMaxWidth(),
+                            contentScale = ContentScale.Crop
+                        )
+                    }
+                    phone.comments.forEach { comment ->
+                        Text(
+                            text = "${comment.author}: ${comment.content} (Score: ${comment.score})",
+                            style = MaterialTheme.typography.bodyMedium,
+                            modifier = Modifier.padding(top = 4.dp)
+                        )
+                        HorizontalDivider()
                     }
                 }
             }

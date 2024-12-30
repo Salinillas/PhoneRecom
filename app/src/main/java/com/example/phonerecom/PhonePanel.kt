@@ -38,7 +38,7 @@ fun PhonePanel(navController: NavHostController) {
             onClick = { navController.navigate("phone_deletion_panel") },
             modifier = Modifier.fillMaxWidth()
         ) {
-            Text("Delete Phone")
+            Text("Admin Phones")
         }
     }
 }

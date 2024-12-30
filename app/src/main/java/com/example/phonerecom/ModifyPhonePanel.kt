@@ -1,64 +1,76 @@
 package com.example.phonerecom
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import coil.compose.AsyncImage
 
 @Composable
-fun PhoneAdditionPanel(navController: NavHostController, phoneViewModel: PhoneViewModel) {
-    var phoneName by remember { mutableStateOf("") }
-    var software by remember { mutableStateOf("") }
-    var softwareScore by remember { mutableStateOf("") }
-    var screen by remember { mutableStateOf("") }
-    var screenScore by remember { mutableStateOf("") }
-    var camera by remember { mutableStateOf("") }
-    var cameraScore by remember { mutableStateOf("") }
-    var battery by remember { mutableStateOf("") }
-    var batteryScore by remember { mutableStateOf("") }
-    var buildQuality by remember { mutableStateOf("") }
-    var buildQualityScore by remember { mutableStateOf("") }
-    var speaker by remember { mutableStateOf("") }
-    var speakerScore by remember { mutableStateOf("") }
-    var microphone by remember { mutableStateOf("") }
-    var microphoneScore by remember { mutableStateOf("") }
-    var ram by remember { mutableStateOf("") }
-    var ramScore by remember { mutableStateOf("") }
-    var internalMemory by remember { mutableStateOf("") }
-    var internalMemoryScore by remember { mutableStateOf("") }
-    var cpu by remember { mutableStateOf("") }
-    var cpuScore by remember { mutableStateOf("") }
-    var gpu by remember { mutableStateOf("") }
-    var gpuScore by remember { mutableStateOf("") }
-    var size by remember { mutableStateOf("") }
-    var sizeScore by remember { mutableStateOf("") }
-    var reviews by remember { mutableStateOf("") }
-    var reviewsScore by remember { mutableStateOf("") }
-    var userOpinions by remember { mutableStateOf("") }
-    var userOpinionsScore by remember { mutableStateOf("") }
-    var popularity by remember { mutableStateOf("") }
-    var popularityScore by remember { mutableStateOf("") }
-    var price by remember { mutableStateOf("") }
-    var priceScore by remember { mutableStateOf("") }
-    var photoUrl by remember { mutableStateOf("") }
+fun ModifyPhonePanel(navController: NavHostController, phoneViewModel: PhoneViewModel) {
+    val selectedPhone by remember { mutableStateOf(phoneViewModel.getSelectedPhone()) }
+    var phoneName by remember { mutableStateOf(selectedPhone?.name ?: "") }
+
+    var software by remember { mutableStateOf(selectedPhone?.attributes?.get("Software")?.specification ?: "") }
+    var softwareScore by remember { mutableStateOf(selectedPhone?.attributes?.get("Software")?.score?.toString() ?: "") }
+    var screen by remember { mutableStateOf(selectedPhone?.attributes?.get("Screen")?.specification ?: "") }
+    var screenScore by remember { mutableStateOf(selectedPhone?.attributes?.get("Screen")?.score?.toString() ?: "") }
+    var camera by remember { mutableStateOf(selectedPhone?.attributes?.get("Camera")?.specification ?: "") }
+    var cameraScore by remember { mutableStateOf(selectedPhone?.attributes?.get("Camera")?.score?.toString() ?: "") }
+    var battery by remember { mutableStateOf(selectedPhone?.attributes?.get("Battery")?.specification ?: "") }
+    var batteryScore by remember { mutableStateOf(selectedPhone?.attributes?.get("Battery")?.score?.toString() ?: "") }
+    var buildQuality by remember { mutableStateOf(selectedPhone?.attributes?.get("Build_Quality")?.specification ?: "") }
+    var buildQualityScore by remember { mutableStateOf(selectedPhone?.attributes?.get("Build_Quality")?.score?.toString() ?: "") }
+    var speaker by remember { mutableStateOf(selectedPhone?.attributes?.get("Speaker")?.specification ?: "") }
+    var speakerScore by remember { mutableStateOf(selectedPhone?.attributes?.get("Speaker")?.score?.toString() ?: "") }
+    var microphone by remember { mutableStateOf(selectedPhone?.attributes?.get("Microphone")?.specification ?: "") }
+    var microphoneScore by remember { mutableStateOf(selectedPhone?.attributes?.get("Microphone")?.score?.toString() ?: "") }
+    var ram by remember { mutableStateOf(selectedPhone?.attributes?.get("RAM")?.specification ?: "") }
+    var ramScore by remember { mutableStateOf(selectedPhone?.attributes?.get("RAM")?.score?.toString() ?: "") }
+    var internalMemory by remember { mutableStateOf(selectedPhone?.attributes?.get("Internal_Memory")?.specification ?: "") }
+    var internalMemoryScore by remember { mutableStateOf(selectedPhone?.attributes?.get("Internal_Memory")?.score?.toString() ?: "") }
+    var cpu by remember { mutableStateOf(selectedPhone?.attributes?.get("CPU")?.specification ?: "") }
+    var cpuScore by remember { mutableStateOf(selectedPhone?.attributes?.get("CPU")?.score?.toString() ?: "") }
+    var gpu by remember { mutableStateOf(selectedPhone?.attributes?.get("GPU")?.specification ?: "") }
+    var gpuScore by remember { mutableStateOf(selectedPhone?.attributes?.get("GPU")?.score?.toString() ?: "") }
+    var size by remember { mutableStateOf(selectedPhone?.attributes?.get("Size")?.specification ?: "") }
+    var sizeScore by remember { mutableStateOf(selectedPhone?.attributes?.get("Size")?.score?.toString() ?: "") }
+    var reviews by remember { mutableStateOf(selectedPhone?.attributes?.get("Reviews")?.specification ?: "") }
+    var reviewsScore by remember { mutableStateOf(selectedPhone?.attributes?.get("Reviews")?.score?.toString() ?: "") }
+    var userOpinions by remember { mutableStateOf(selectedPhone?.attributes?.get("User_Opinion")?.specification ?: "") }
+    var userOpinionsScore by remember { mutableStateOf(selectedPhone?.attributes?.get("User_Opinion")?.score?.toString() ?: "") }
+    var popularity by remember { mutableStateOf(selectedPhone?.attributes?.get("Popularity")?.specification ?: "") }
+    var popularityScore by remember { mutableStateOf(selectedPhone?.attributes?.get("Popularity")?.score?.toString() ?: "") }
+    var price by remember { mutableStateOf(selectedPhone?.attributes?.get("Price")?.specification ?: "") }
+    var priceScore by remember { mutableStateOf(selectedPhone?.attributes?.get("Price")?.score?.toString() ?: "") }
+    var photoUrl by remember { mutableStateOf(selectedPhone?.photoUrl ?: "") }
+    val comments by remember { mutableStateOf(selectedPhone?.comments ?: emptyList()) }
+    //var attributes = remember { mutableStateMapOf<String, MutableState<PhoneAttribute>>() }
+    //var comments = remember { mutableStateListOf<Comment>() }
+
+
+/*
+    selectedPhone?.attributes?.forEach { (key, attribute) ->
+        attributes[key] = mutableStateOf(attribute)
+    }*//*
+    selectedPhone?.comments?.let { commentList ->
+        comments.addAll(commentList)
+    }*/
 
     Column(
         modifier = Modifier
@@ -68,7 +80,7 @@ fun PhoneAdditionPanel(navController: NavHostController, phoneViewModel: PhoneVi
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Top
     ) {
-        IconButton(onClick = { navController.navigate("phone_panel") }) {
+        IconButton(onClick = { navController.navigate("phone_deletion_panel") }) {
             Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
         }
         OutlinedTextField(
@@ -232,13 +244,13 @@ fun PhoneAdditionPanel(navController: NavHostController, phoneViewModel: PhoneVi
             onValueChange = { reviewsScore = it },
             label = { Text("Reviews Score") },
             modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp)
-        )
+        )/*
         OutlinedTextField(
             value = userOpinions,
             onValueChange = { userOpinions = it },
             label = { Text("User Opinions") },
             modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp)
-        )
+        )*/
         OutlinedTextField(
             value = userOpinionsScore,
             onValueChange = { userOpinionsScore = it },
@@ -275,10 +287,54 @@ fun PhoneAdditionPanel(navController: NavHostController, phoneViewModel: PhoneVi
             label = { Text("Photo URL") },
             modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp)
         )
-
+        if (photoUrl.isNotEmpty()) {
+            AsyncImage(
+                model = photoUrl,
+                contentDescription = phoneName,
+                modifier = Modifier
+                    .height(150.dp)
+                    .fillMaxWidth(),
+                contentScale = ContentScale.Crop
+            )
+        }
+/*
+        Text("Comments:", style = MaterialTheme.typography.bodyLarge)
+        comments.forEachIndexed { index, comment ->
+            OutlinedTextField(
+                value = comment.author,
+                onValueChange = { comments[index] = comment.copy(author = it) },
+                label = { Text("Author") },
+                modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp)
+            )
+            OutlinedTextField(
+                value = comment.content,
+                onValueChange = { comments[index] = comment.copy(content = it) },
+                label = { Text("Content") },
+                modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp)
+            )
+            OutlinedTextField(
+                value = comment.score.toString(),
+                onValueChange = { comments[index] = comment.copy(content = it) },
+                label = { Text("Content") },
+                modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp)
+            )
+        }
+        userOpinions = if(userOpinionsScore.toFloat()<=2) {
+            "Muy Malo"
+        }else if(userOpinionsScore.toFloat()<=4){
+            "Malo"
+        }else if(userOpinionsScore.toFloat()<=6){
+            "Regular"
+        }else if(userOpinionsScore.toFloat()<=8){
+            "Bueno"
+        }else if(userOpinionsScore.toFloat()<=10){
+            "Muy Bueno"
+        }else{
+            "No hay opiniones"
+        }*/
         Button(
             onClick = {
-                val phone = Phone(
+                val phoneToUpdate = Phone(
                     name = phoneName,
                     attributes = mapOf(
                         "Software" to PhoneAttribute(software, softwareScore.toFloatOrNull() ?: 0f),
@@ -297,15 +353,28 @@ fun PhoneAdditionPanel(navController: NavHostController, phoneViewModel: PhoneVi
                         "User_Opinion" to PhoneAttribute(userOpinions, userOpinionsScore.toFloatOrNull() ?: 0f),
                         "Popularity" to PhoneAttribute(popularity, popularityScore.toFloatOrNull() ?: 0f),
                         "Price" to PhoneAttribute(price, priceScore.toFloatOrNull() ?: 0f)
+
                     ),
+                    comments = comments,
                     photoUrl = photoUrl
+
                 )
-                phoneViewModel.addPhone(phone)
-                navController.popBackStack()
+                /*
+                // Update phone details in the ViewModel
+                val updatedPhone = selectedPhone?.copy(
+                    name = phoneName,
+                    attributes = attributes.mapValues { it.value.value }.toMap(),
+                    photoUrl = photoUrl,
+                    comments = comments.toList()
+                )*/
+                selectedPhone?.let { phoneViewModel.deletePhone(it.name) }
+                phoneViewModel.updatePhone(phoneToUpdate)
+
+                navController.navigate("phone_panel")
             },
-            modifier = Modifier.fillMaxWidth().padding(top = 16.dp)
+            modifier = Modifier.padding(top = 16.dp)
         ) {
-            Text("Add Phone")
+            Text("Save Changes")
         }
     }
 }

@@ -9,6 +9,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -18,10 +20,27 @@ import androidx.navigation.NavController
 
 @Composable
 fun LoginScreen(navController: NavController, viewModel: LoginViewModel) {
+    //val loginViewModel = LoginViewModel(firebaseManager)
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
-    var error by remember { mutableStateOf<String?>(null) }
+    var isLoginSuccessful by remember { mutableStateOf(false) }
+    var userRole by remember { mutableStateOf<String?>(null) }
+    var errorMessage by remember { mutableStateOf<String?>(null) }
     val context = LocalContext.current
+
+    LaunchedEffect(isLoginSuccessful) {
+        if (isLoginSuccessful) {
+            if (userRole == "admin") {
+                navController.navigate("admin_panel") {
+                    popUpTo("login") { inclusive = true }
+                }
+            } else if (userRole == "user") {
+                navController.navigate("user_panel") {
+                    popUpTo("login") { inclusive = true }
+                }
+            }
+        }
+    }
 
     BackHandler {
         // Do nothing to prevent back navigation
@@ -62,24 +81,10 @@ fun LoginScreen(navController: NavController, viewModel: LoginViewModel) {
 
         Button(
             onClick = {
-                viewModel.login(username, password) { success, role ->
-                    if (success) {
-                        if (role == "admin") {
-                            navController.navigate("admin_panel") {
-                                popUpTo("login") { inclusive = true }
-                            }
-                        } else {
-                            Toast.makeText(context, "Sesión iniciada", Toast.LENGTH_SHORT).show()
-
-                            navController.navigate("user_panel") {
-                                popUpTo("login") { inclusive = true }
-                            }
-                        }
-                    } else {
-                        Toast.makeText(context, "Credenciales no válidos", Toast.LENGTH_SHORT).show()
-
-                        error = "Nombre de usuario o contraseña incorrectos"
-                    }
+                viewModel.login(username, password) { success, message, role ->
+                    isLoginSuccessful = success
+                    errorMessage = message
+                    userRole = role
                 }
             },
             modifier = Modifier.fillMaxWidth()
@@ -89,23 +94,11 @@ fun LoginScreen(navController: NavController, viewModel: LoginViewModel) {
 
         Button(
             onClick = {
-                viewModel.register(username, password) { success, role ->
+                viewModel.register(username, password, "user") { success, message ->
                     if (success) {
-                        if (role == "admin") {
-                            navController.navigate("admin_panel") {
-                                popUpTo("login") { inclusive = true }
-                            }
-                        } else {
-                            Toast.makeText(context, "Usuario registrado", Toast.LENGTH_SHORT).show()
-
-                            navController.navigate("user_panel") {
-                                popUpTo("login") { inclusive = true }
-                            }
-                        }
+                        Toast.makeText(context, "Usuario registrado: $message", Toast.LENGTH_SHORT).show()
                     } else {
-                        Toast.makeText(context, "Credenciales no válidos", Toast.LENGTH_SHORT).show()
-
-                        error = "Nombre de usuario o contraseña incorrectos"
+                        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
                     }
                 }
             },
@@ -113,9 +106,9 @@ fun LoginScreen(navController: NavController, viewModel: LoginViewModel) {
         ) {
             Text("Registrarse")
         }
-        if (error != null) {
+        if (errorMessage != null) {
             Text(
-                text = error!!,
+                text = errorMessage!!,
                 color = MaterialTheme.colorScheme.error,
                 modifier = Modifier.padding(top = 16.dp)
             )

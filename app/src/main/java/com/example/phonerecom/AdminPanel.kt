@@ -32,7 +32,9 @@ fun AdminPanel(navController: NavController, viewModel: LoginViewModel) {
     var expanded by remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
-        viewModel.getAllUsers { users = it }
+        viewModel.getAllUsers { fetchedUsers ->
+            users = fetchedUsers
+        }
     }
     BackHandler {
         if (showUserForm || showUserList || modifyUser) {
@@ -43,7 +45,7 @@ fun AdminPanel(navController: NavController, viewModel: LoginViewModel) {
             showUserList = false
             modifyUser = false
         } else {
-            viewModel.logout()
+            viewModel.logoutUser()
             navController.navigate("login")
         }
     }
@@ -136,27 +138,28 @@ fun AdminPanel(navController: NavController, viewModel: LoginViewModel) {
 
             Button(
                 onClick = {
-                    if (username.isNotEmpty() && password.isNotEmpty()) {
+                    if (username.isNotEmpty() && password.isNotEmpty() && role.isNotEmpty()) {
                         viewModel.userExists(username) { exists ->
                             if (!exists) {
-                                viewModel.addUser(username, password, role) { success ->
+                                viewModel.register(username, password, role) { success, message ->
                                     if (success) {
-                                        viewModel.getAllUsers { users = it }
+                                        viewModel.getAllUsers { fetchedUsers ->
+                                            users = fetchedUsers
+                                        }
                                         username = ""
                                         password = ""
                                         role = ""
-                                        Toast.makeText(context, "User added", Toast.LENGTH_SHORT)
-                                            .show()
+                                        Toast.makeText(context, "User added", Toast.LENGTH_SHORT).show()
+                                    } else {
+                                        Toast.makeText(context, "Username or Password have incorrect format", Toast.LENGTH_SHORT).show()
                                     }
                                 }
                             } else {
-                                Toast.makeText(context, "User already exists", Toast.LENGTH_SHORT)
-                                    .show()
+                                Toast.makeText(context, "User already exists", Toast.LENGTH_SHORT).show()
                             }
                         }
                     } else {
-                        Toast.makeText(context, "Username and password cannot be empty", Toast.LENGTH_SHORT)
-                            .show()
+                        Toast.makeText(context, "Username and password cannot be empty", Toast.LENGTH_SHORT).show()
                     }
                 },
                 modifier = Modifier.fillMaxWidth()
@@ -190,6 +193,9 @@ fun AdminPanel(navController: NavController, viewModel: LoginViewModel) {
                             viewModel.deleteUser(user.username) { success ->
                                 if (success) {
                                     viewModel.getAllUsers { users = it }
+                                    Toast.makeText(context, "Usuario borrado", Toast.LENGTH_SHORT).show()
+                                }else{
+                                    Toast.makeText(context, "Error al borrar el usuario", Toast.LENGTH_SHORT).show()
                                 }
                             }
                         }) {
@@ -248,31 +254,32 @@ fun AdminPanel(navController: NavController, viewModel: LoginViewModel) {
             }
             Button(
                 onClick = {
-                    if (username.isNotEmpty() && password.isNotEmpty())
+                    if (username.isNotEmpty() && password.isNotEmpty() && selectedUser != null) {
                         viewModel.userExists(selectedUser!!.username) { exists ->
                             if (exists) {
-                                viewModel.updateUser(
-                                    selectedUser!!.username,
-                                    username,
-                                    password,
-                                    role
-                                ) { success ->
+                                val updatedUser = User(username, password, role)
+                                viewModel.updateUser(updatedUser) { success ->
                                     if (success) {
-                                        viewModel.getAllUsers { users = it }
+                                        viewModel.getAllUsers { fetchedUsers ->
+                                            users = fetchedUsers
+                                        }
                                         modifyUser = false
                                         selectedUser = null
                                         username = ""
                                         password = ""
-                                        role = ""
-                                        Toast.makeText(context, "User modified", Toast.LENGTH_SHORT)
-                                            .show()
+                                        role = "user"
+                                        Toast.makeText(context, "User modified", Toast.LENGTH_SHORT).show()
+                                    } else {
+                                        Toast.makeText(context, "Error modifying user", Toast.LENGTH_SHORT).show()
                                     }
                                 }
                             } else {
-                                Toast.makeText(context, "User does not exist", Toast.LENGTH_SHORT)
-                                    .show()
+                                Toast.makeText(context, "User does not exist", Toast.LENGTH_SHORT).show()
                             }
                         }
+                    } else {
+                        Toast.makeText(context, "Please fill all fields", Toast.LENGTH_SHORT).show()
+                    }
                 },
                 modifier = Modifier.fillMaxWidth()
             ) {

@@ -1,6 +1,6 @@
 // app/src/main/java/com/example/phonerecom/DatabaseHelper.kt
 package com.example.phonerecom
-
+/*
 
 import android.content.ContentValues
 import android.content.Context
@@ -32,7 +32,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
                 "GPU" to PhoneAttribute("Adreno 618", 7.5f),
                 "Size" to PhoneAttribute("160 x 75 x 8 mm", 7.0f),
                 "Reviews" to PhoneAttribute("Good", 8.0f),
-                "User_Opinions" to PhoneAttribute("Positive", 8.5f),
+                "User_Opinion" to PhoneAttribute("Positive", 8.5f),
                 "Popularity" to PhoneAttribute("High", 9.0f),
                 "Price" to PhoneAttribute("$300", 8.0f)
             )),
@@ -50,7 +50,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
                 "GPU" to PhoneAttribute("Apple GPU", 9.0f),
                 "Size" to PhoneAttribute("150 x 70 x 7 mm", 8.0f),
                 "Reviews" to PhoneAttribute("Excellent", 9.0f),
-                "User_Opinions" to PhoneAttribute("Very Positive", 9.5f),
+                "User_Opinion" to PhoneAttribute("Very Positive", 9.5f),
                 "Popularity" to PhoneAttribute("Very High", 9.5f),
                 "Price" to PhoneAttribute("$700", 7.5f)
             )),
@@ -68,7 +68,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
                 "GPU" to PhoneAttribute("Adreno 610", 6.5f),
                 "Size" to PhoneAttribute("155 x 75 x 8 mm", 7.0f),
                 "Reviews" to PhoneAttribute("Average", 7.0f),
-                "User_Opinions" to PhoneAttribute("Mixed", 6.5f),
+                "User_Opinion" to PhoneAttribute("Mixed", 6.5f),
                 "Popularity" to PhoneAttribute("Medium", 7.0f),
                 "Price" to PhoneAttribute("$200", 7.5f)
             )),
@@ -86,7 +86,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
                 "GPU" to PhoneAttribute("Apple GPU", 8.5f),
                 "Size" to PhoneAttribute("160 x 75 x 7 mm", 8.0f),
                 "Reviews" to PhoneAttribute("Good", 8.5f),
-                "User_Opinions" to PhoneAttribute("Positive", 8.5f),
+                "User_Opinion" to PhoneAttribute("Positive", 8.5f),
                 "Popularity" to PhoneAttribute("High", 8.5f),
                 "Price" to PhoneAttribute("$600", 8.0f)
             )),
@@ -104,7 +104,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
                 "GPU" to PhoneAttribute("Adreno 506", 5.5f),
                 "Size" to PhoneAttribute("150 x 70 x 8 mm", 6.0f),
                 "Reviews" to PhoneAttribute("Average", 6.0f),
-                "User_Opinions" to PhoneAttribute("Mixed", 5.5f),
+                "User_Opinion" to PhoneAttribute("Mixed", 5.5f),
                 "Popularity" to PhoneAttribute("Low", 6.0f),
                 "Price" to PhoneAttribute("$150", 6.5f)
             )),
@@ -122,7 +122,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
                 "GPU" to PhoneAttribute("Apple GPU", 7.5f),
                 "Size" to PhoneAttribute("145 x 70 x 7 mm", 7.5f),
                 "Reviews" to PhoneAttribute("Good", 8.0f),
-                "User_Opinions" to PhoneAttribute("Positive", 8.0f),
+                "User_Opinion" to PhoneAttribute("Positive", 8.0f),
                 "Popularity" to PhoneAttribute("High", 8.0f),
                 "Price" to PhoneAttribute("$500", 7.5f)
             )),
@@ -140,7 +140,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
                 "GPU" to PhoneAttribute("Adreno 650", 8.5f),
                 "Size" to PhoneAttribute("160 x 75 x 8 mm", 8.0f),
                 "Reviews" to PhoneAttribute("Excellent", 9.0f),
-                "User_Opinions" to PhoneAttribute("Very Positive", 9.5f),
+                "User_Opinion" to PhoneAttribute("Very Positive", 9.5f),
                 "Popularity" to PhoneAttribute("Very High", 9.5f),
                 "Price" to PhoneAttribute("$800", 8.5f)
             )),
@@ -158,7 +158,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
                 "GPU" to PhoneAttribute("Apple GPU", 9.0f),
                 "Size" to PhoneAttribute("150 x 70 x 7 mm", 8.5f),
                 "Reviews" to PhoneAttribute("Excellent", 9.0f),
-                "User_Opinions" to PhoneAttribute("Very Positive", 9.5f),
+                "User_Opinion" to PhoneAttribute("Very Positive", 9.5f),
                 "Popularity" to PhoneAttribute("Very High", 9.5f),
                 "Price" to PhoneAttribute("$900", 8.5f)
             )),
@@ -176,7 +176,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
                 "GPU" to PhoneAttribute("Adreno 660", 9.0f),
                 "Size" to PhoneAttribute("165 x 75 x 8 mm", 8.5f),
                 "Reviews" to PhoneAttribute("Excellent", 9.5f),
-                "User_Opinions" to PhoneAttribute("Very Positive", 9.5f),
+                "User_Opinion" to PhoneAttribute("Very Positive", 9.5f),
                 "Popularity" to PhoneAttribute("Very High", 9.5f),
                 "Price" to PhoneAttribute("$1000", 9.0f)
             )),
@@ -194,7 +194,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
                 "GPU" to PhoneAttribute("Apple GPU", 9.5f),
                 "Size" to PhoneAttribute("155 x 75 x 7 mm", 9.0f),
                 "Reviews" to PhoneAttribute("Excellent", 9.5f),
-                "User_Opinions" to PhoneAttribute("Very Positive", 9.5f),
+                "User_Opinion" to PhoneAttribute("Very Positive", 9.5f),
                 "Popularity" to PhoneAttribute("Very High", 9.5f),
                 "Price" to PhoneAttribute("$1100", 9.0f)
             )),
@@ -212,7 +212,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
                 "GPU" to PhoneAttribute("Adreno 730", 9.5f),
                 "Size" to PhoneAttribute("170 x 80 x 8 mm", 9.0f),
                 "Reviews" to PhoneAttribute("Excellent", 9.5f),
-                "User_Opinions" to PhoneAttribute("Very Positive", 9.5f),
+                "User_Opinion" to PhoneAttribute("Very Positive", 9.5f),
                 "Popularity" to PhoneAttribute("Very High", 9.5f),
                 "Price" to PhoneAttribute("$1200", 9.0f)
             )),
@@ -230,7 +230,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
                 "GPU" to PhoneAttribute("Apple GPU", 9.5f),
                 "Size" to PhoneAttribute("160 x 75 x 7 mm", 9.0f),
                 "Reviews" to PhoneAttribute("Excellent", 9.5f),
-                "User_Opinions" to PhoneAttribute("Very Positive", 9.5f),
+                "User_Opinion" to PhoneAttribute("Very Positive", 9.5f),
                 "Popularity" to PhoneAttribute("Very High", 9.5f),
                 "Price" to PhoneAttribute("$1300", 9.0f)
             )),
@@ -248,7 +248,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
                 "GPU" to PhoneAttribute("Adreno 650", 8.5f),
                 "Size" to PhoneAttribute("160 x 75 x 8 mm", 8.0f),
                 "Reviews" to PhoneAttribute("Excellent", 9.0f),
-                "User_Opinions" to PhoneAttribute("Very Positive", 9.5f),
+                "User_Opinion" to PhoneAttribute("Very Positive", 9.5f),
                 "Popularity" to PhoneAttribute("Very High", 9.5f),
                 "Price" to PhoneAttribute("$800", 8.5f)
             )),
@@ -266,7 +266,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
                 "GPU" to PhoneAttribute("Adreno 750", 9.5f),
                 "Size" to PhoneAttribute("147 x 71 x 7.5 mm", 9.5f),
                 "Reviews" to PhoneAttribute("Excellent", 9.5f),
-                "User_Opinions" to PhoneAttribute("Very Positive", 9.5f),
+                "User_Opinion" to PhoneAttribute("Very Positive", 9.5f),
                 "Popularity" to PhoneAttribute("Very High", 9.5f),
                 "Price" to PhoneAttribute("$899", 9.75f)
             )),
@@ -285,7 +285,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
                 "GPU" to PhoneAttribute("Apple GPU", 9.5f),
                 "Size" to PhoneAttribute("147 x 72 x 7.8 mm", 9.0f),
                 "Reviews" to PhoneAttribute("Excellent", 9.5f),
-                "User_Opinions" to PhoneAttribute("Very Positive", 9.5f),
+                "User_Opinion" to PhoneAttribute("Very Positive", 9.5f),
                 "Popularity" to PhoneAttribute("Very High", 9.5f),
                 "Price" to PhoneAttribute("$999", 9.0f)
             )),
@@ -303,7 +303,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
                 "GPU" to PhoneAttribute("Mali-G710 MP8", 8.5f),
                 "Size" to PhoneAttribute("156 x 74 x 8.5 mm", 8.5f),
                 "Reviews" to PhoneAttribute("Excellent", 9.0f),
-                "User_Opinions" to PhoneAttribute("Very Positive", 9.5f),
+                "User_Opinion" to PhoneAttribute("Very Positive", 9.5f),
                 "Popularity" to PhoneAttribute("Very High", 9.5f),
                 "Price" to PhoneAttribute("$699", 8.5f)
             )),
@@ -321,7 +321,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
                 "GPU" to PhoneAttribute("Adreno 750", 9.5f),
                 "Size" to PhoneAttribute("164 x 75 x 8.5 mm", 9.0f),
                 "Reviews" to PhoneAttribute("Excellent", 9.5f),
-                "User_Opinions" to PhoneAttribute("Very Positive", 9.5f),
+                "User_Opinion" to PhoneAttribute("Very Positive", 9.5f),
                 "Popularity" to PhoneAttribute("Very High", 9.5f),
                 "Price" to PhoneAttribute("$899", 9.0f)
             )),
@@ -339,7 +339,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
                 "GPU" to PhoneAttribute("Adreno 750", 9.5f),
                 "Size" to PhoneAttribute("163 x 75 x 8.4 mm", 9.0f),
                 "Reviews" to PhoneAttribute("Excellent", 9.5f),
-                "User_Opinions" to PhoneAttribute("Very Positive", 9.5f),
+                "User_Opinion" to PhoneAttribute("Very Positive", 9.5f),
                 "Popularity" to PhoneAttribute("Very High", 9.5f),
                 "Price" to PhoneAttribute("$999", 9.0f)
             )),
@@ -357,7 +357,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
                 "GPU" to PhoneAttribute("Adreno 750", 9.5f),
                 "Size" to PhoneAttribute("166 x 72 x 8.2 mm", 9.0f),
                 "Reviews" to PhoneAttribute("Excellent", 9.5f),
-                "User_Opinions" to PhoneAttribute("Very Positive", 9.5f),
+                "User_Opinion" to PhoneAttribute("Very Positive", 9.5f),
                 "Popularity" to PhoneAttribute("Very High", 9.5f),
                 "Price" to PhoneAttribute("$1299", 9.0f)
             )),
@@ -375,7 +375,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
                 "GPU" to PhoneAttribute("Adreno 750", 9.5f),
                 "Size" to PhoneAttribute("164 x 75 x 8.5 mm", 9.0f),
                 "Reviews" to PhoneAttribute("Excellent", 9.5f),
-                "User_Opinions" to PhoneAttribute("Very Positive", 9.5f),
+                "User_Opinion" to PhoneAttribute("Very Positive", 9.5f),
                 "Popularity" to PhoneAttribute("Very High", 9.5f),
                 "Price" to PhoneAttribute("$1199", 9.0f)
             )),
@@ -393,7 +393,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
                 "GPU" to PhoneAttribute("Mali-G78 MP24", 9.0f),
                 "Size" to PhoneAttribute("162 x 75 x 8.3 mm", 9.0f),
                 "Reviews" to PhoneAttribute("Excellent", 9.5f),
-                "User_Opinions" to PhoneAttribute("Very Positive", 9.5f),
+                "User_Opinion" to PhoneAttribute("Very Positive", 9.5f),
                 "Popularity" to PhoneAttribute("Very High", 9.5f),
                 "Price" to PhoneAttribute("$1099", 9.0f)
             )),
@@ -411,7 +411,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
                 "GPU" to PhoneAttribute("Adreno 750", 9.5f),
                 "Size" to PhoneAttribute("174 x 78 x 10.3 mm", 9.0f),
                 "Reviews" to PhoneAttribute("Excellent", 9.5f),
-                "User_Opinions" to PhoneAttribute("Very Positive", 9.5f),
+                "User_Opinion" to PhoneAttribute("Very Positive", 9.5f),
                 "Popularity" to PhoneAttribute("Very High", 9.5f),
                 "Price" to PhoneAttribute("$1099", 9.0f)
             )),
@@ -429,7 +429,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
                 "GPU" to PhoneAttribute("Adreno 740", 8.5f),
                 "Size" to PhoneAttribute("165 x 76 x 8.7 mm", 8.5f),
                 "Reviews" to PhoneAttribute("Excellent", 9.0f),
-                "User_Opinions" to PhoneAttribute("Very Positive", 9.5f),
+                "User_Opinion" to PhoneAttribute("Very Positive", 9.5f),
                 "Popularity" to PhoneAttribute("Very High", 9.5f),
                 "Price" to PhoneAttribute("$799", 8.5f)
             )),
@@ -447,7 +447,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
                 "GPU" to PhoneAttribute("Adreno 740", 8.5f),
                 "Size" to PhoneAttribute("165 x 76 x 8.7 mm", 8.5f),
                 "Reviews" to PhoneAttribute("Excellent", 9.0f),
-                "User_Opinions" to PhoneAttribute("Very Positive", 9.5f),
+                "User_Opinion" to PhoneAttribute("Very Positive", 9.5f),
                 "Popularity" to PhoneAttribute("Very High", 9.5f),
                 "Price" to PhoneAttribute("$799", 8.5f)
             )),
@@ -465,7 +465,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
                 "GPU" to PhoneAttribute("Adreno 740", 9.5f),
                 "Size" to PhoneAttribute("146.3 x 70.9 x 7.6 mm", 9.0f),
                 "Reviews" to PhoneAttribute("Excellent", 9.5f),
-                "User_Opinions" to PhoneAttribute("Very Positive", 9.5f),
+                "User_Opinion" to PhoneAttribute("Very Positive", 9.5f),
                 "Popularity" to PhoneAttribute("Very High", 9.5f),
                 "Price" to PhoneAttribute("$799", 9.0f)
             )),
@@ -483,7 +483,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
                 "GPU" to PhoneAttribute("Apple GPU", 9.5f),
                 "Size" to PhoneAttribute("146.7 x 71.5 x 7.8 mm", 9.0f),
                 "Reviews" to PhoneAttribute("Excellent", 9.5f),
-                "User_Opinions" to PhoneAttribute("Very Positive", 9.5f),
+                "User_Opinion" to PhoneAttribute("Very Positive", 9.5f),
                 "Popularity" to PhoneAttribute("Very High", 9.5f),
                 "Price" to PhoneAttribute("$899", 9.0f)
             )),
@@ -501,7 +501,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
                 "GPU" to PhoneAttribute("Mali-G710 MP7", 8.5f),
                 "Size" to PhoneAttribute("155.6 x 73.2 x 8.7 mm", 8.5f),
                 "Reviews" to PhoneAttribute("Excellent", 9.0f),
-                "User_Opinions" to PhoneAttribute("Very Positive", 9.5f),
+                "User_Opinion" to PhoneAttribute("Very Positive", 9.5f),
                 "Popularity" to PhoneAttribute("Very High", 9.5f),
                 "Price" to PhoneAttribute("$599", 8.5f)
             )),
@@ -519,7 +519,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
                 "GPU" to PhoneAttribute("Adreno 740", 9.5f),
                 "Size" to PhoneAttribute("163.1 x 74.1 x 8.5 mm", 9.0f),
                 "Reviews" to PhoneAttribute("Excellent", 9.5f),
-                "User_Opinions" to PhoneAttribute("Very Positive", 9.5f),
+                "User_Opinion" to PhoneAttribute("Very Positive", 9.5f),
                 "Popularity" to PhoneAttribute("Very High", 9.5f),
                 "Price" to PhoneAttribute("$799", 9.0f)
             )),
@@ -537,7 +537,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
                 "GPU" to PhoneAttribute("Adreno 740", 9.5f),
                 "Size" to PhoneAttribute("162.9 x 74.6 x 8.4 mm", 9.0f),
                 "Reviews" to PhoneAttribute("Excellent", 9.5f),
-                "User_Opinions" to PhoneAttribute("Very Positive", 9.5f),
+                "User_Opinion" to PhoneAttribute("Very Positive", 9.5f),
                 "Popularity" to PhoneAttribute("Very High", 9.5f),
                 "Price" to PhoneAttribute("$999", 9.0f)
             )),
@@ -555,7 +555,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
                 "GPU" to PhoneAttribute("Adreno 740", 9.5f),
                 "Size" to PhoneAttribute("165 x 71 x 8.2 mm", 9.0f),
                 "Reviews" to PhoneAttribute("Excellent", 9.5f),
-                "User_Opinions" to PhoneAttribute("Very Positive", 9.5f),
+                "User_Opinion" to PhoneAttribute("Very Positive", 9.5f),
                 "Popularity" to PhoneAttribute("Very High", 9.5f),
                 "Price" to PhoneAttribute("$1299", 9.0f)
             )),
@@ -573,7 +573,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
                 "GPU" to PhoneAttribute("Adreno 740", 9.5f),
                 "Size" to PhoneAttribute("163.7 x 73.9 x 8.5 mm", 9.0f),
                 "Reviews" to PhoneAttribute("Excellent", 9.5f),
-                "User_Opinions" to PhoneAttribute("Very Positive", 9.5f),
+                "User_Opinion" to PhoneAttribute("Very Positive", 9.5f),
                 "Popularity" to PhoneAttribute("Very High", 9.5f),
                 "Price" to PhoneAttribute("$1199", 9.0f)
             )),
@@ -591,7 +591,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
                 "GPU" to PhoneAttribute("Adreno 730", 9.0f),
                 "Size" to PhoneAttribute("161 x 74.5 x 8.3 mm", 9.0f),
                 "Reviews" to PhoneAttribute("Excellent", 9.5f),
-                "User_Opinions" to PhoneAttribute("Very Positive", 9.5f),
+                "User_Opinion" to PhoneAttribute("Very Positive", 9.5f),
                 "Popularity" to PhoneAttribute("Very High", 9.5f),
                 "Price" to PhoneAttribute("$1099", 9.0f)
             )),
@@ -609,7 +609,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
                 "GPU" to PhoneAttribute("Adreno 740", 9.5f),
                 "Size" to PhoneAttribute("173 x 77 x 10.3 mm", 9.0f),
                 "Reviews" to PhoneAttribute("Excellent", 9.5f),
-                "User_Opinions" to PhoneAttribute("Very Positive", 9.5f),
+                "User_Opinion" to PhoneAttribute("Very Positive", 9.5f),
                 "Popularity" to PhoneAttribute("Very High", 9.5f),
                 "Price" to PhoneAttribute("$999", 9.0f)
             )),
@@ -627,7 +627,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
                 "GPU" to PhoneAttribute("Adreno 642L", 8.5f),
                 "Size" to PhoneAttribute("164.9 x 76.2 x 8.7 mm", 8.5f),
                 "Reviews" to PhoneAttribute("Excellent", 9.0f),
-                "User_Opinions" to PhoneAttribute("Very Positive", 9.5f),
+                "User_Opinion" to PhoneAttribute("Very Positive", 9.5f),
                 "Popularity" to PhoneAttribute("Very High", 9.5f),
                 "Price" to PhoneAttribute("$699", 8.5f)
             )),
@@ -645,7 +645,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
                 "GPU" to PhoneAttribute("Mali-G77 MP11", 8.5f),
                 "Size" to PhoneAttribute("161.6 x 75.2 x 8.3 mm", 8.5f),
                 "Reviews" to PhoneAttribute("Excellent", 9.0f),
-                "User_Opinions" to PhoneAttribute("Very Positive", 9.5f),
+                "User_Opinion" to PhoneAttribute("Very Positive", 9.5f),
                 "Popularity" to PhoneAttribute("Very High", 9.5f),
                 "Price" to PhoneAttribute("$999", 8.5f)
             )),
@@ -663,7 +663,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
                 "GPU" to PhoneAttribute("Apple GPU", 9.5f),
                 "Size" to PhoneAttribute("146.7 x 71.5 x 7.4 mm", 8.5f),
                 "Reviews" to PhoneAttribute("Excellent", 9.5f),
-                "User_Opinions" to PhoneAttribute("Very Positive", 9.5f),
+                "User_Opinion" to PhoneAttribute("Very Positive", 9.5f),
                 "Popularity" to PhoneAttribute("Very High", 9.5f),
                 "Price" to PhoneAttribute("$799", 8.5f)
             )),
@@ -681,7 +681,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
                 "GPU" to PhoneAttribute("Adreno 620", 8.0f),
                 "Size" to PhoneAttribute("144.7 x 70.4 x 8 mm", 8.5f),
                 "Reviews" to PhoneAttribute("Excellent", 9.0f),
-                "User_Opinions" to PhoneAttribute("Very Positive", 9.5f),
+                "User_Opinion" to PhoneAttribute("Very Positive", 9.5f),
                 "Popularity" to PhoneAttribute("Very High", 9.5f),
                 "Price" to PhoneAttribute("$699", 8.5f)
             )),
@@ -699,7 +699,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
                 "GPU" to PhoneAttribute("Adreno 650", 8.5f),
                 "Size" to PhoneAttribute("160.7 x 74.1 x 8.4 mm", 8.5f),
                 "Reviews" to PhoneAttribute("Excellent", 9.0f),
-                "User_Opinions" to PhoneAttribute("Very Positive", 9.5f),
+                "User_Opinion" to PhoneAttribute("Very Positive", 9.5f),
                 "Popularity" to PhoneAttribute("Very High", 9.5f),
                 "Price" to PhoneAttribute("$749", 8.5f)
             )),
@@ -717,7 +717,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
                 "GPU" to PhoneAttribute("Adreno 650", 8.5f),
                 "Size" to PhoneAttribute("162.5 x 74.8 x 9 mm", 8.5f),
                 "Reviews" to PhoneAttribute("Excellent", 9.0f),
-                "User_Opinions" to PhoneAttribute("Very Positive", 9.5f),
+                "User_Opinion" to PhoneAttribute("Very Positive", 9.5f),
                 "Popularity" to PhoneAttribute("Very High", 9.5f),
                 "Price" to PhoneAttribute("$699", 8.5f)
             )),
@@ -735,7 +735,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
                 "GPU" to PhoneAttribute("Adreno 650", 8.5f),
                 "Size" to PhoneAttribute("158 x 68 x 8 mm", 8.5f),
                 "Reviews" to PhoneAttribute("Excellent", 9.0f),
-                "User_Opinions" to PhoneAttribute("Very Positive", 9.5f),
+                "User_Opinion" to PhoneAttribute("Very Positive", 9.5f),
                 "Popularity" to PhoneAttribute("Very High", 9.5f),
                 "Price" to PhoneAttribute("$949", 8.5f)
             )),
@@ -1183,3 +1183,4 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
 data class User(val username: String, val password: String, val role: String)
 data class Phone(val id: Int, val nombre: String, val attributes: Map<String, PhoneAttribute>)
 data class PhoneAttribute(val specification: String, val score: Float)
+*/

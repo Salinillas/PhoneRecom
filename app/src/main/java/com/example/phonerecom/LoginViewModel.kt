@@ -1,117 +1,147 @@
 // app/src/main/java/com/example/phonerecom/LoginViewModel.kt
 package com.example.phonerecom
 
-import android.widget.Toast
-import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.launch
 
-class LoginViewModel(private val dbHelper: DatabaseHelper) : ViewModel() {
-    private var currentUser: String? = null
-    private var currentUserRole: String? = null
-
+class LoginViewModel(private val firebaseManager: FirebaseManager) : ViewModel() {
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
-    /*
-    fun login(username: String, password: String, callback: (Boolean, String?) -> Unit) {
-        viewModelScope.launch {
-            val db = dbHelper.readableDatabase
-            val cursor = db.query(
-                DatabaseHelper.TABLE_USER,
-                arrayOf(DatabaseHelper.COLUMN_ROLE),
-                "${DatabaseHelper.COLUMN_USERNAME} = ? AND ${DatabaseHelper.COLUMN_PASSWORD} = ?",
-                arrayOf(username, password),
-                null,
-                null,
-                null
-            )
-            if (cursor.moveToFirst()) {
-                currentUser = username
-                val role = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_ROLE))
-                currentUserRole = role
-                callback(true, role)
-            } else {
-                callback(false, null)
-            }
-            cursor.close()
-        }
-    }
-
-    fun logout() {
-        currentUser = null
-    }*/
-    fun register (email: String, password: String, callback: (Boolean, String?) -> Unit) {
-        if(email.isEmpty() || password.isEmpty()) {
-            callback(false, "Por favor ingrese un nombre de usuario y contraseña")
-        }else{
-        viewModelScope.launch {
-            FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        callback(true, "user")
-
-                    } else {
-                        callback(false, task.exception?.message)
-                    }
-                }
-        }
-        }
-    }
-
-    fun login(email: String, password: String, callback: (Boolean, String?) -> Unit) {
-        if(email.isEmpty() || password.isEmpty()) {
-            callback(false, "Por favor ingrese un nombre de usuario y contraseña")
-        }else{
-        viewModelScope.launch {
-            auth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        callback(true, "user")
-                    } else {
-                        callback(false, task.exception?.message)
-                    }
-                }
-            }
-        }
-    }
-
-    fun logout(){
-        auth.signOut()
-    }
-
-    fun addUser(username: String, password: String, role: String, callback: (Boolean) -> Unit) {
-        viewModelScope.launch {
-            val result = dbHelper.addUser(username, password, role)
-            callback(result != -1L)
-        }
-    }
-
-    fun deleteUser(username: String, callback: (Boolean) -> Unit) {
-        viewModelScope.launch {
-            val result = dbHelper.deleteUser(username)
-            callback(result > 0)
-        }
-    }
-
-    fun updateUser(oldUsername: String, newUsername: String, newPassword: String, newRole: String, callback: (Boolean) -> Unit) {
-        viewModelScope.launch {
-            val result = dbHelper.updateUser(oldUsername, newUsername, newPassword, newRole)
-            callback(result > 0)
-        }
-    }
 
     fun userExists(username: String, callback: (Boolean) -> Unit) {
         viewModelScope.launch {
-            val exists = dbHelper.userExists(username)
+            val exists = firebaseManager.userExists(username)
             callback(exists)
         }
     }
 
     fun getAllUsers(callback: (List<User>) -> Unit) {
         viewModelScope.launch {
-            val users = dbHelper.getAllUsers()
+            val users = firebaseManager.getAllUsers()
             callback(users)
         }
     }
+
+    fun deleteUser(username: String, callback: (Boolean) -> Unit) {
+        viewModelScope.launch {
+            val success = firebaseManager.deleteUser(username)
+            callback(success)
+        }
+    }
+    fun updateUser(user: User, callback: (Boolean) -> Unit) {
+        viewModelScope.launch {
+            val success = firebaseManager.updateUser(user)
+            callback(success)
+        }
+    }
+/*
+    fun registerUser(email: String, password: String, role: String, onResult: (Boolean) -> Unit) {
+        viewModelScope.launch {
+            val result = firebaseManager.registerUser(email, password, role)
+            onResult(result)
+        }
+    }
+*/
+    fun register(email: String, password: String, role: String, callback: (Boolean, String?) -> Unit) {
+        if (email.isEmpty() || password.isEmpty()) {
+            callback(false, "Por favor ingrese un nombre de usuario y contraseña")
+        } else {
+            viewModelScope.launch {
+                val success = firebaseManager.registerUser(email, password, role)
+                if (success) {
+                    callback(true, "user")
+                } else {
+                    callback(false, "Error al crear el usuario en la base de datos")
+                }
+            }
+        }
+    }
+/*
+    fun registerUser(email: String, password: String, role: String) {
+        auth.createUserWithEmailAndPassword(email, password)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    val user = auth.currentUser
+                    user?.let {
+                        val userData = User(username = email, password = password, role = role)
+                        firebaseManager.collection("users").document(it.uid).set(userData)
+                            .addOnSuccessListener {
+                                // Usuario registrado y datos guardados en Firestore
+                            }
+                            .addOnFailureListener {
+                                // Error al guardar los datos en Firestore
+                            }
+                    }
+                } else {
+                    // Error en el registro
+                }
+            }
+    }*/
+
+    fun login(email: String, password: String, callback: (Boolean, String?, String?) -> Unit) {
+        if (email.isEmpty() || password.isEmpty()) {
+            callback(false, "Por favor ingrese un nombre de usuario y contraseña", null)
+        } else {
+            viewModelScope.launch {
+
+                val success = firebaseManager.loginUser(email, password)
+                val role = firebaseManager.getUserRole()
+                if (success) {
+                    callback(true, "user logged in successfully", role)
+                } else {
+                    callback(false, "Error al loggear el usuario", null)
+                }
+/*
+                if (task.isSuccessful) {
+                    viewModelScope.launch {
+                        val role = firebaseManager.getUserRole(email)
+                        if (role != null) {
+                            callback(true, "user", role)
+                        } else {
+                            callback(false, "Error al obtener el rol del usuario", null)
+                        }
+                    }
+                } else {
+                    callback(false, task.exception?.message, null)
+                }*/
+            }
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        fun loginUser(email: String, password: String, onResult: (Boolean) -> Unit) {
+            viewModelScope.launch {
+                val result = firebaseManager.loginUser(email, password)
+                onResult(result)
+            }
+        }
+
+        fun logoutUser() {
+            firebaseManager.logoutUser()
+        }
+
+        fun getCurrentUser(): User? {
+            return firebaseManager.getCurrentUser()
+        }
+
+        fun getUserRole(onResult: (String?) -> Unit) {
+        viewModelScope.launch {
+            val role = firebaseManager.getUserRole()
+            onResult(role)
+        }
+    }
+
 }
