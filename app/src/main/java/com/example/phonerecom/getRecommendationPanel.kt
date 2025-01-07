@@ -30,8 +30,8 @@ fun GetRecommendationPanel(navController: NavHostController, phoneViewModel: Pho
     val context = LocalContext.current
     var selectedAttributes by remember { mutableStateOf(listOf<String>()) }
     val sortParameters = listOf("Software", "Screen", "Camera",
-        "Battery", "Build Quality", "Speaker", "Microphone", "RAM", "Internal Memory",
-        "CPU", "GPU", "Size", "Reviews", "User Opinions", "Popularity", "Price")
+        "Battery", "Build_Quality", "Speaker", "Microphone", "RAM", "Internal_Memory",
+        "CPU", "GPU", "Size", "Reviews", "User_Opinion", "Popularity", "Price")
 
 
 
