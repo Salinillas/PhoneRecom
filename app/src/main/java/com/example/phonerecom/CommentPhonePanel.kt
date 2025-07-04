@@ -42,9 +42,6 @@ fun CommentPhonePanel(navController: NavHostController, phoneViewModel: PhoneVie
     var score by remember { mutableStateOf("") }
     var currentUser by remember { mutableStateOf("") }
     val context = LocalContext.current
-    /*LaunchedEffect(Unit) {
-        phones = phoneViewModel.getAllPhones()
-    }*/
 
     Column(
         modifier = Modifier

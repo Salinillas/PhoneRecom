@@ -1,19 +1,12 @@
 package com.example.phonerecom
 
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.DatabaseReference
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
 
 class FirebaseManager(private val database: FirebaseFirestore) {
 
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
-    //private val phonesRef: DatabaseReference = database.getReference("phones")
-    //private val nextPhoneIdRef: DatabaseReference = database.getReference("nextPhoneId")
-    //private val usersRef: DatabaseReference = database.getReference("users")
-
-
 
         suspend fun registerUser(email: String, password: String, role: String): Boolean {
             return try {
@@ -53,20 +46,6 @@ class FirebaseManager(private val database: FirebaseFirestore) {
             }
         }
 
-
-    suspend fun addUser(user: User): Boolean {
-        return try {
-            val userMap = hashMapOf(
-                "username" to user.username,
-                "password" to user.password,
-                "role" to user.role
-            )
-            database.collection("users").document(user.username).set(userMap).await()
-            true
-        } catch (e: Exception) {
-            false
-        }
-    }
     suspend fun getAllUsers(): List<User> {
         return try {
             val querySnapshot = database.collection("users").get().await()
@@ -81,21 +60,6 @@ class FirebaseManager(private val database: FirebaseFirestore) {
             users
         } catch (e: Exception) {
             emptyList()
-        }
-    }
-
-    suspend fun getUser(username: String): User? {
-        return try {
-            val document = database.collection("users").document(username).get().await()
-            if (document.exists()) {
-                val password = document.getString("password") ?: ""
-                val role = document.getString("role") ?: ""
-                User(username, password, role)
-            } else {
-                null
-            }
-        } catch (e: Exception) {
-            null
         }
     }
 
@@ -155,28 +119,6 @@ class FirebaseManager(private val database: FirebaseFirestore) {
             false
         }
     }
-/*
-    // --- Read (Get All) ---
-    suspend fun getAllPhones(): List<Phone> {
-        return try {
-            val querySnapshot = database.collection("phones").get().await()
-            val phones = mutableListOf<Phone>()
-            for (document in querySnapshot.documents) {
-                val id = document.getLong("id")?.toInt() ?: 0
-                val name = document.getString("name") ?: ""
-                val attributes = (document.get("attributes") as? Map<String, PhoneAttribute> ?: emptyMap()) as MutableMap<String, PhoneAttribute>
-                val phone = Phone(id, name, attributes)
-                phones.add(phone)
-            }
-            phones
-        } catch (e: Exception) {
-            emptyList()
-        }
-    }*/
-
-
-
-
 
     suspend fun getAllPhones(): List<Phone> {
         return try {
@@ -206,28 +148,6 @@ class FirebaseManager(private val database: FirebaseFirestore) {
         } catch (e: Exception) {
             e.printStackTrace()
             emptyList()
-        }
-    }
-
-
-
-
-
-
-
-    // --- Read (Get One by ID) ---
-    suspend fun getPhone(phoneName: String): Phone? {
-        return try {
-            val document = database.collection("phones").document(phoneName).get().await()
-            if (document.exists()) {
-                val name = document.getString("name") ?: ""
-                val attributes = document.get("attributes") as? Map<String, PhoneAttribute> ?: emptyMap()
-                Phone(name, attributes)
-            } else {
-                null
-            }
-        } catch (e: Exception) {
-            null
         }
     }
 
@@ -269,42 +189,10 @@ class FirebaseManager(private val database: FirebaseFirestore) {
         }
     }
 
-/*
-    suspend fun updateUserOpinion(phone: Phone){
-        val userOpinionsScore = if (phone.comments.isNotEmpty()) {
-            phone.comments.map { it.score }.average().toFloat()
-        } else {
-            0f
-        }
-        val userOpinions = when {
-            userOpinionsScore <= 2 -> "Muy Malo"
-            userOpinionsScore <= 4 -> "Malo"
-            userOpinionsScore <= 6 -> "Regular"
-            userOpinionsScore <= 8 -> "Bueno"
-            userOpinionsScore <= 10 -> "Muy Bueno"
-            else -> "No hay opiniones"
-        }
-        val updatedAttributes = phone.attributes.toMutableMap()
-        updatedAttributes["User Opinion"] = PhoneAttribute(userOpinions, userOpinionsScore)
-        database.collection("phones").document(phone.name).set(phoneMap).await()
-    }*/
-
-
-    // --- Delete ---
     suspend fun deletePhone(phoneName: String): Boolean {
         return try {
             database.collection("phones").document(phoneName).delete().await()
             true
-        } catch (e: Exception) {
-            false
-        }
-    }
-
-    // --- Exists (Check if a phone exists by ID) ---
-    suspend fun phoneExists(phoneName: String): Boolean {
-        return try {
-            val document = database.collection("phones").document(phoneName).get().await()
-            document.exists()
         } catch (e: Exception) {
             false
         }

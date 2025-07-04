@@ -59,11 +59,11 @@ fun PhoneDeletionPanel(navController: NavHostController, phoneViewModel: PhoneVi
                 val n = name
                 if (n != "" && phoneViewModel.phoneExists(name)) {
                     phoneViewModel.deletePhone(name)
-                    Toast.makeText(context, "Phone deleted", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "Phone deleted.", Toast.LENGTH_SHORT).show()
                     name = ""
                     phones = phoneViewModel.getAllPhones()
                 } else {
-                    Toast.makeText(context, "Invalid Name", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "Invalid Name.", Toast.LENGTH_SHORT).show()
                 }
             },
             modifier = Modifier.fillMaxWidth()
@@ -79,7 +79,7 @@ fun PhoneDeletionPanel(navController: NavHostController, phoneViewModel: PhoneVi
                     //name = ""
                     //phones = phoneViewModel.getAllPhones()
                 } else {
-                    Toast.makeText(context, "Invalid Name", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "Invalid Name.", Toast.LENGTH_SHORT).show()
                 }
             },
             modifier = Modifier.fillMaxWidth()

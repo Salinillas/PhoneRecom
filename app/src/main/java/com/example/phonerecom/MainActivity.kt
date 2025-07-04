@@ -47,9 +47,9 @@ class MainActivity : ComponentActivity() {
                 Scaffold { paddingValues ->
                     NavHost(
                         navController = navController,
-                        //startDestination = "admin_panel",
+                        startDestination = "admin_panel",
 
-                        startDestination = "login",
+                        //startDestination = "login",
                         //startDestination = "user_panel",
                         modifier = Modifier.padding(paddingValues)
                     ) {

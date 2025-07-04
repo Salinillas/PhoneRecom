@@ -93,13 +93,17 @@ fun AdminPanel(navController: NavController, viewModel: LoginViewModel) {
                 value = username,
                 onValueChange = { username = it },
                 label = { Text("Username") },
-                modifier = Modifier.fillMaxWidth().padding(bottom = 16.dp)
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 16.dp)
             )
             OutlinedTextField(
                 value = password,
                 onValueChange = { password = it },
                 label = { Text("Password") },
-                modifier = Modifier.fillMaxWidth().padding(bottom = 16.dp)
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 16.dp)
             )
 
             Box {
@@ -107,7 +111,9 @@ fun AdminPanel(navController: NavController, viewModel: LoginViewModel) {
                     value = role,
                     onValueChange = { role = it },
                     label = { Text("Role") },
-                    modifier = Modifier.fillMaxWidth().padding(bottom = 16.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 16.dp),
                     readOnly = true,
                     trailingIcon = {
                         IconButton(onClick = { expanded = true }) {
@@ -140,26 +146,30 @@ fun AdminPanel(navController: NavController, viewModel: LoginViewModel) {
                 onClick = {
                     if (username.isNotEmpty() && password.isNotEmpty() && role.isNotEmpty()) {
                         viewModel.userExists(username) { exists ->
-                            if (!exists) {
-                                viewModel.register(username, password, role) { success, message ->
-                                    if (success) {
-                                        viewModel.getAllUsers { fetchedUsers ->
-                                            users = fetchedUsers
-                                        }
-                                        username = ""
-                                        password = ""
-                                        role = ""
-                                        Toast.makeText(context, "User added", Toast.LENGTH_SHORT).show()
-                                    } else {
-                                        Toast.makeText(context, "Username or Password have incorrect format", Toast.LENGTH_SHORT).show()
+                            viewModel.register(username, password, role) { success, message ->
+                                if (success) {
+                                    viewModel.getAllUsers { fetchedUsers ->
+                                        users = fetchedUsers
                                     }
+                                    username = ""
+                                    password = ""
+                                    role = ""
+                                    Toast.makeText(context, "User added.", Toast.LENGTH_SHORT).show()
+                                } else {
+                                    Toast.makeText(
+                                        context,
+                                        message,
+                                        Toast.LENGTH_SHORT
+                                    ).show()
                                 }
-                            } else {
-                                Toast.makeText(context, "User already exists", Toast.LENGTH_SHORT).show()
                             }
                         }
                     } else {
-                        Toast.makeText(context, "Username and password cannot be empty", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            context,
+                            "Username, role and password cannot be empty.",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                 },
                 modifier = Modifier.fillMaxWidth()
@@ -188,124 +198,44 @@ fun AdminPanel(navController: NavController, viewModel: LoginViewModel) {
                             .padding(8.dp),
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
-                        Text(user.username + " - " +  user.role)
-//                        Button(onClick = {
-//                            viewModel.deleteUser(user.username) { success ->
-//                                if (success) {
-//                                    viewModel.getAllUsers { users = it }
-//                                    Toast.makeText(context, "Usuario borrado", Toast.LENGTH_SHORT).show()
-//                                }else{
-//                                    Toast.makeText(context, "Error al borrar el usuario", Toast.LENGTH_SHORT).show()
-//                                }
-//                            }
-//                        }) {
-//                            Text("Delete")
-//                        }
+                        Text(user.username + " - " + user.role)
                     }
                 }
             }
         } else if (modifyUser) {
-            Column(modifier = Modifier.fillMaxWidth().padding(16.dp)) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
+            ) {
                 Text(text = "Username: ${username}", modifier = Modifier.padding(bottom = 4.dp))
                 Text(text = "Password: ${password}", modifier = Modifier.padding(bottom = 4.dp))
                 Text(text = "Role: ${role}")
             }
-/*
-            OutlinedTextField(
-                value = username,
-                onValueChange = { username = it },
-                label = { Text("Username") },
-                modifier = Modifier.fillMaxWidth().padding(bottom = 16.dp)
-            )
-            OutlinedTextField(
-                value = password,
-                onValueChange = { password = it },
-                label = { Text("Password") },
-                modifier = Modifier.fillMaxWidth().padding(bottom = 16.dp)
-            )
-            Box {
-                OutlinedTextField(
-                    value = role,
-                    onValueChange = { role = it },
-                    label = { Text("Role") },
-                    modifier = Modifier.fillMaxWidth().padding(bottom = 16.dp),
-                    readOnly = true,
-                    trailingIcon = {
-                        IconButton(onClick = { expanded = true }) {
-                            Icon(Icons.Default.ArrowDropDown, contentDescription = "Dropdown")
-                        }
-                    }
-                )
-                DropdownMenu(
-                    expanded = expanded,
-                    onDismissRequest = { expanded = false }
-                ) {
-                    DropdownMenuItem(
-                        text = { Text("User") },
-                        onClick = {
-                            role = "user"
-                            expanded = false
-                        }
-                    )
-                    DropdownMenuItem(
-                        text = { Text("Admin") },
-                        onClick = {
-                            role = "admin"
-                            expanded = false
-                        }
-                    )
-                }
-            }
-            Button(
-                onClick = {
-                    if (username.isNotEmpty() && password.isNotEmpty() && selectedUser != null) {
-                        viewModel.userExists(selectedUser!!.username) { exists ->
-                            if (exists) {
-                                val updatedUser = User(username, password, role)
-                                viewModel.updateUser(updatedUser) { success ->
-                                    if (success) {
-                                        viewModel.getAllUsers { fetchedUsers ->
-                                            users = fetchedUsers
-                                        }
-                                        modifyUser = false
-                                        selectedUser = null
-                                        username = ""
-                                        password = ""
-                                        role = "user"
-                                        Toast.makeText(context, "User modified", Toast.LENGTH_SHORT).show()
-                                    } else {
-                                        Toast.makeText(context, "Error modifying user", Toast.LENGTH_SHORT).show()
-                                    }
-                                }
-                            } else {
-                                Toast.makeText(context, "User does not exist", Toast.LENGTH_SHORT).show()
-                            }
-                        }
-                    } else {
-                        Toast.makeText(context, "Please fill all fields", Toast.LENGTH_SHORT).show()
-                    }
-                },
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Text("Modify User")
-            }*/
+
         } else {
 
             Button(
                 onClick = { showUserForm = true },
-                modifier = Modifier.fillMaxWidth().padding(bottom = 16.dp)
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 16.dp)
             ) {
                 Text("Add User")
             }
             Button(
                 onClick = { showUserList = true },
-                modifier = Modifier.fillMaxWidth().padding(bottom = 16.dp)
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 16.dp)
             ) {
                 Text("Show Users")
             }
             Button(
                 onClick = { navController.navigate("phone_panel") },
-                modifier = Modifier.fillMaxWidth().padding(bottom = 16.dp)
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 16.dp)
             ) {
                 Text("Phone Panel")
             }
