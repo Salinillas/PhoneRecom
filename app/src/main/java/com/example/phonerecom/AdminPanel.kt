@@ -188,25 +188,29 @@ fun AdminPanel(navController: NavController, viewModel: LoginViewModel) {
                             .padding(8.dp),
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
-                        Text(user.username + " - " + user.role)
-                        Button(onClick = {
-                            viewModel.deleteUser(user.username) { success ->
-                                if (success) {
-                                    viewModel.getAllUsers { users = it }
-                                    Toast.makeText(context, "Usuario borrado", Toast.LENGTH_SHORT).show()
-                                }else{
-                                    Toast.makeText(context, "Error al borrar el usuario", Toast.LENGTH_SHORT).show()
-                                }
-                            }
-                        }) {
-                            Text("Delete")
-                        }
+                        Text(user.username + " - " +  user.role)
+//                        Button(onClick = {
+//                            viewModel.deleteUser(user.username) { success ->
+//                                if (success) {
+//                                    viewModel.getAllUsers { users = it }
+//                                    Toast.makeText(context, "Usuario borrado", Toast.LENGTH_SHORT).show()
+//                                }else{
+//                                    Toast.makeText(context, "Error al borrar el usuario", Toast.LENGTH_SHORT).show()
+//                                }
+//                            }
+//                        }) {
+//                            Text("Delete")
+//                        }
                     }
                 }
             }
         } else if (modifyUser) {
-
-
+            Column(modifier = Modifier.fillMaxWidth().padding(16.dp)) {
+                Text(text = "Username: ${username}", modifier = Modifier.padding(bottom = 4.dp))
+                Text(text = "Password: ${password}", modifier = Modifier.padding(bottom = 4.dp))
+                Text(text = "Role: ${role}")
+            }
+/*
             OutlinedTextField(
                 value = username,
                 onValueChange = { username = it },
@@ -284,7 +288,7 @@ fun AdminPanel(navController: NavController, viewModel: LoginViewModel) {
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text("Modify User")
-            }
+            }*/
         } else {
 
             Button(
