@@ -29,6 +29,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.navigation.NavHostController
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 
@@ -40,6 +41,7 @@ fun CommentPhonePanel(navController: NavHostController, phoneViewModel: PhoneVie
     var comment by remember { mutableStateOf("") }
     var score by remember { mutableStateOf("") }
     var currentUser by remember { mutableStateOf("") }
+    val context = LocalContext.current
     /*LaunchedEffect(Unit) {
         phones = phoneViewModel.getAllPhones()
     }*/
@@ -100,15 +102,19 @@ fun CommentPhonePanel(navController: NavHostController, phoneViewModel: PhoneVie
                 modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp)
             )
             Button(onClick = {
+                val userScore = score.toFloatOrNull() //?: 0f
+                if (userScore != null && comment.length >= 5 && userScore in 0f..10f) {
                 currentUser = phoneViewModel.getCurrentUser()?.username ?: ""
-                val userScore = score.toFloatOrNull() ?: 0f
                 val updatedPhone = phone.copy(
                     comments = phone.comments + Comment(currentUser, comment, userScore),
-                    //attributes = phone.attributes + ("User_Score" to PhoneAttribute("User Score", userScore))
                 )
                 phoneViewModel.updatePhone(updatedPhone)
+                Toast.makeText(context, "Comment added.", Toast.LENGTH_SHORT).show()
                 comment = ""
                 score = ""
+                } else {
+                    Toast.makeText(context, "Comment must be at least 5 characters and the score must be a number from 0 to 10.", Toast.LENGTH_SHORT).show()
+                }
             }) {
                 Text("Submit")
             }

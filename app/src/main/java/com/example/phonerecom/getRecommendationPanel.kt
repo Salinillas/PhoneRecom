@@ -65,12 +65,12 @@ fun GetRecommendationPanel(navController: NavHostController, phoneViewModel: Pho
             onClick = {
                 val budgetValue = budget.toFloatOrNull()
                 if(selectedAttributes.isEmpty()) {
-                    Toast.makeText(context, "Please select at least one attribute", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "Please select at least one attribute.", Toast.LENGTH_SHORT).show()
                 } else if (budgetValue != null) {
                     phones = phoneViewModel.getBestPhoneBySelectedAttributesWithinBudget(selectedAttributes,
                         budgetValue-50, budgetValue+50)
                 } else {
-                    Toast.makeText(context, "Invalid budget", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "Invalid budget.", Toast.LENGTH_SHORT).show()
                 }
             },
             modifier = Modifier.fillMaxWidth().padding(bottom = 16.dp)
@@ -90,22 +90,7 @@ fun GetRecommendationPanel(navController: NavHostController, phoneViewModel: Pho
             modifier = Modifier.fillMaxWidth().padding(bottom = 16.dp)
         ) {
             Text("Best phone by budget")
-        }/*
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(8.dp)
-        ) {
-            Text("Recommended Phone:")
-            if (recommendedPhone != null) {
-                Text("Name: ${recommendedPhone!!.name} (Average Score: ${
-                    recommendedPhone!!.attributes.values.map { it.score }.average()
-                })")
-                recommendedPhone!!.attributes.forEach { (key, attribute) ->
-                    Text("$key: ${attribute.specification} (Score: ${attribute.score})")
-                }
-            }
-        }*/
+        }
             phones.forEach { phone ->
                 Column(
                     modifier = Modifier

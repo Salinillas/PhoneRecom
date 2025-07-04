@@ -120,7 +120,7 @@ fun ViewPhonesPanel(navController: NavHostController, phoneViewModel: PhoneViewM
                 } else if (min == null && max == null) {
                     phonesToShow = phones
             }else {
-                    Toast.makeText(context, "Invalid price range", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "Invalid price range.", Toast.LENGTH_SHORT).show()
                 }
             },
             modifier = Modifier.fillMaxWidth().padding(bottom = 16.dp)

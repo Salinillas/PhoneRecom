@@ -16,11 +16,11 @@ import androidx.compose.ui.Modifier
 @Composable
 fun FAQPanel(navController: NavHostController) {
     val faqs = listOf(
-        "How do I reset my password?" to "To reset your password, go to the login screen and click on 'Forgot Password'. Follow the instructions to reset your password.",
-        "How do I update my profile information?" to "To update your profile information, go to the user panel and click on 'Edit Profile'. Make the necessary changes and save.",
+        "How do I reset my password?" to "To reset your password, contact an administrator of the app.",
         "How do I delete my account?" to "To delete your account, please contact our support team at phoneReconsupport@gmail.com.",
         "How do I contact customer support?" to "You can contact customer support by emailing phoneReconsupport@gmail.com or calling 1-800-123-4567.",
-        "Where can I find the user manual?" to "The user manual can be found in the 'Help' section of the app or on our website at www.example.com/user-manual."
+        "How do I know the grades of the specifications are reliable?" to "The grades are determined by the general evaluation of professionals in the matter, you can trust it!",
+        "Where can I find the user manual?" to "The user manual can be found contacting an administrator of the app."
     )
 
     Column(

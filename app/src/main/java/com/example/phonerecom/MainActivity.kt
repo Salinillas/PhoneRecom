@@ -49,8 +49,8 @@ class MainActivity : ComponentActivity() {
                         navController = navController,
                         //startDestination = "admin_panel",
 
-                        //startDestination = "login",
-                        startDestination = "user_panel",
+                        startDestination = "login",
+                        //startDestination = "user_panel",
                         modifier = Modifier.padding(paddingValues)
                     ) {
                         composable("login") { LoginScreen(navController, loginViewModel) }

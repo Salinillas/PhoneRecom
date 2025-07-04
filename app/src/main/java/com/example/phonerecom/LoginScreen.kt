@@ -20,7 +20,6 @@ import androidx.navigation.NavController
 
 @Composable
 fun LoginScreen(navController: NavController, viewModel: LoginViewModel) {
-    //val loginViewModel = LoginViewModel(firebaseManager)
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var isLoginSuccessful by remember { mutableStateOf(false) }
@@ -89,14 +88,14 @@ fun LoginScreen(navController: NavController, viewModel: LoginViewModel) {
             },
             modifier = Modifier.fillMaxWidth()
         ) {
-            Text("Iniciar Sesión")
+            Text("Login")
         }
 
         Button(
             onClick = {
                 viewModel.register(username, password, "user") { success, message ->
                     if (success) {
-                        Toast.makeText(context, "Usuario registrado: $message", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, "Registered user: $message", Toast.LENGTH_SHORT).show()
                     } else {
                         Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
                     }
@@ -104,7 +103,7 @@ fun LoginScreen(navController: NavController, viewModel: LoginViewModel) {
             },
             modifier = Modifier.fillMaxWidth()
         ) {
-            Text("Registrarse")
+            Text("Register")
         }
         if (errorMessage != null) {
             Text(
