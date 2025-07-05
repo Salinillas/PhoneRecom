@@ -1,8 +1,6 @@
-// app/src/main/java/com/example/phonerecom/ui/theme/Theme.kt
 package com.example.phonerecom.ui.theme
 
 import android.os.Build
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.dynamicDarkColorScheme

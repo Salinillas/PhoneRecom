@@ -1,15 +1,21 @@
-// app/src/main/java/com/example/phonerecom/LoginScreen.kt
 package com.example.phonerecom
 
 import android.widget.Toast
 import androidx.activity.compose.BackHandler
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -95,7 +101,8 @@ fun LoginScreen(navController: NavController, viewModel: LoginViewModel) {
             onClick = {
                 viewModel.register(username, password, "user") { success, message ->
                     if (success) {
-                        Toast.makeText(context, "Registered user: $message", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, "Registered user: $message", Toast.LENGTH_SHORT)
+                            .show()
                     } else {
                         Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
                     }
