@@ -21,17 +21,16 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
-import androidx.navigation.NavHostController
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 
 @Composable
 fun CommentPhonePanel(navController: NavHostController, phoneViewModel: PhoneViewModel) {
@@ -58,14 +57,18 @@ fun CommentPhonePanel(navController: NavHostController, phoneViewModel: PhoneVie
             value = phoneSearch,
             onValueChange = { phoneSearch = it },
             label = { Text("Phone Name") },
-            modifier = Modifier.fillMaxWidth().padding(bottom = 16.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 16.dp),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text)
         )
         Button(
             onClick = {
                 phones = phoneViewModel.sortPhonesByName(phoneSearch)
             },
-            modifier = Modifier.fillMaxWidth().padding(bottom = 16.dp)
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 16.dp)
         ) {
             Text("Filter")
         }
@@ -90,27 +93,35 @@ fun CommentPhonePanel(navController: NavHostController, phoneViewModel: PhoneVie
                 value = comment,
                 onValueChange = { comment = it },
                 label = { Text("Comment") },
-                modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp)
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 8.dp)
             )
             OutlinedTextField(
                 value = score,
                 onValueChange = { score = it },
                 label = { Text("Score (0-10)") },
-                modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp)
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 8.dp)
             )
             Button(onClick = {
                 val userScore = score.toFloatOrNull() //?: 0f
                 if (userScore != null && comment.length >= 5 && userScore in 0f..10f) {
-                currentUser = phoneViewModel.getCurrentUser()?.username ?: ""
-                val updatedPhone = phone.copy(
-                    comments = phone.comments + Comment(currentUser, comment, userScore),
-                )
-                phoneViewModel.updatePhone(updatedPhone)
-                Toast.makeText(context, "Comment added.", Toast.LENGTH_SHORT).show()
-                comment = ""
-                score = ""
+                    currentUser = phoneViewModel.getCurrentUser()?.username ?: ""
+                    val updatedPhone = phone.copy(
+                        comments = phone.comments + Comment(currentUser, comment, userScore),
+                    )
+                    phoneViewModel.updatePhone(updatedPhone)
+                    Toast.makeText(context, "Comment added.", Toast.LENGTH_SHORT).show()
+                    comment = ""
+                    score = ""
                 } else {
-                    Toast.makeText(context, "Comment must be at least 5 characters and the score must be a number from 0 to 10.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        context,
+                        "Comment must be at least 5 characters and the score must be a number from 0 to 10.",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }) {
                 Text("Submit")

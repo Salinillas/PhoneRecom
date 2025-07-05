@@ -20,7 +20,9 @@ import androidx.navigation.NavHostController
 @Composable
 fun PhonePanel(navController: NavHostController) {
     Column(
-        modifier = Modifier.fillMaxSize().padding(16.dp),
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Top
     ) {
@@ -30,7 +32,9 @@ fun PhonePanel(navController: NavHostController) {
 
         Button(
             onClick = { navController.navigate("phone_addition_panel") },
-            modifier = Modifier.fillMaxWidth().padding(bottom = 16.dp)
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 16.dp)
         ) {
             Text("Add Phone")
         }

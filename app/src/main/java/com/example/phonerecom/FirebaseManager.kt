@@ -8,43 +8,43 @@ class FirebaseManager(private val database: FirebaseFirestore) {
 
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
 
-        suspend fun registerUser(email: String, password: String, role: String): Boolean {
-            return try {
-                val userCredential = auth.createUserWithEmailAndPassword(email, password).await()
-                val user = userCredential.user ?: return false
+    suspend fun registerUser(email: String, password: String, role: String): Boolean {
+        return try {
+            val userCredential = auth.createUserWithEmailAndPassword(email, password).await()
+            val user = userCredential.user ?: return false
 
-                val userData = User(username = email, password = password, role = role)
-                database.collection("users").document(user.uid).set(userData).await()
-                true
-            } catch (e: Exception) {
-                e.printStackTrace()
-                false
-            }
+            val userData = User(username = email, password = password, role = role)
+            database.collection("users").document(user.uid).set(userData).await()
+            true
+        } catch (e: Exception) {
+            e.printStackTrace()
+            false
         }
+    }
 
-        suspend fun loginUser(email: String, password: String): Boolean {
-            return try {
-                auth.signInWithEmailAndPassword(email, password).await()
-                true
-            } catch (e: Exception) {
-                e.printStackTrace()
-                false
-            }
+    suspend fun loginUser(email: String, password: String): Boolean {
+        return try {
+            auth.signInWithEmailAndPassword(email, password).await()
+            true
+        } catch (e: Exception) {
+            e.printStackTrace()
+            false
         }
+    }
 
-        fun logoutUser() {
-            auth.signOut()
-        }
+    fun logoutUser() {
+        auth.signOut()
+    }
 
-        fun getCurrentUser(): User? {
-            val currentUser = auth.currentUser
-            return if (currentUser != null) {
-                // Retrieve additional user data from Firestore if needed
-                User(username = currentUser.email ?: "", password = "", role = "user")
-            } else {
-                null
-            }
+    fun getCurrentUser(): User? {
+        val currentUser = auth.currentUser
+        return if (currentUser != null) {
+            // Retrieve additional user data from Firestore if needed
+            User(username = currentUser.email ?: "", password = "", role = "user")
+        } else {
+            null
         }
+    }
 
     suspend fun getAllUsers(): List<User> {
         return try {
@@ -77,16 +77,6 @@ class FirebaseManager(private val database: FirebaseFirestore) {
         }
     }
 
-
-    suspend fun deleteUser(username: String): Boolean {
-        return try {
-            database.collection("users").document(username).delete().await()
-            true
-        } catch (e: Exception) {
-            false
-        }
-    }
-
     suspend fun userExists(username: String): Boolean {
         return try {
             val document = database.collection("users").document(username).get().await()
@@ -95,6 +85,7 @@ class FirebaseManager(private val database: FirebaseFirestore) {
             false
         }
     }
+
     // Check user role
     suspend fun getUserRole(): String? {
         val user = auth.currentUser ?: return null
@@ -106,6 +97,7 @@ class FirebaseManager(private val database: FirebaseFirestore) {
             null
         }
     }
+
     suspend fun addPhone(phone: Phone): Boolean {
         return try {
             val phoneMap = hashMapOf(
@@ -126,20 +118,22 @@ class FirebaseManager(private val database: FirebaseFirestore) {
             val phones = mutableListOf<Phone>()
             for (document in querySnapshot.documents) {
                 val name = document.getString("name") ?: ""
-                val attributesMap = document.get("attributes") as? Map<String, Map<String, Any>> ?: emptyMap()
+                val attributesMap =
+                    document.get("attributes") as? Map<String, Map<String, Any>> ?: emptyMap()
                 val attributes = attributesMap.mapValues { entry ->
                     val specification = entry.value["specification"] as? String ?: ""
                     val score = (entry.value["score"] as? Double)?.toFloat() ?: 0f
                     PhoneAttribute(specification, score)
                 }.toMutableMap()
                 val photoUrl = document.getString("photoUrl") ?: ""
-                val comments = (document.get("comments") as? List<Map<String, Any>>)?.map { commentMap ->
-                    Comment(
-                        author = commentMap["author"] as? String ?: "",
-                        content = commentMap["content"] as? String ?: "",
-                        score = (commentMap["score"] as? Double)?.toFloat() ?: 0f
-                    )
-                } ?: emptyList()
+                val comments =
+                    (document.get("comments") as? List<Map<String, Any>>)?.map { commentMap ->
+                        Comment(
+                            author = commentMap["author"] as? String ?: "",
+                            content = commentMap["content"] as? String ?: "",
+                            score = (commentMap["score"] as? Double)?.toFloat() ?: 0f
+                        )
+                    } ?: emptyList()
 
                 val phone = Phone(name, attributes, photoUrl, comments)
                 phones.add(phone)
